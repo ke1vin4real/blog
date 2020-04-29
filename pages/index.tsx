@@ -1,10 +1,11 @@
-import Head from 'next/head'
+import Head from 'next/head';
 
 export default function Home() {
+
   return (
     <div className="container">
       <Head>
-        <title>Create Next App</title>
+        <title>Ke1vin's Blog</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -57,7 +58,7 @@ export default function Home() {
           Powered by <img src="/zeit.svg" alt="ZEIT Logo" />
         </a>
       </footer>
-
+      {/* language=SCSS */}
       <style jsx>{`
         .container {
           min-height: 100vh;
@@ -84,16 +85,15 @@ export default function Home() {
           display: flex;
           justify-content: center;
           align-items: center;
+          
+          a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
         }
-
         footer img {
           margin-left: 0.5rem;
-        }
-
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
         }
 
         a {
@@ -200,5 +200,5 @@ export default function Home() {
         }
       `}</style>
     </div>
-  )
+  );
 }
