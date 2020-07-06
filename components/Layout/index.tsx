@@ -1,13 +1,11 @@
-import React from 'react';
-import Link from 'next/link';
+import React from "react";
+import Link from "next/link";
 
 interface Props {
-  frontMatter: {
-    title: string,
-  },
+  children: React.ReactNode,
 }
 
-export default function Layout({ frontMatter: { title } }: Props) {
+const Layout = ({ children }: Props) => {
   return (
     <div>
       {/* language=SCSS */}
@@ -58,9 +56,9 @@ export default function Layout({ frontMatter: { title } }: Props) {
           </li>
         </ul>
       </nav>
-      <main>
-        <h1>{title}</h1>
-      </main>
+      <main>{children}</main>
     </div>
   );
-}
+};
+
+export default Layout;
