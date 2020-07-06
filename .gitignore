@@ -30,3 +30,6 @@ yarn-error.log*
 .env.production.local
 
 .idea/
+
+# Ignore next-mdx-enhanced cache directory
+.mdx-data
