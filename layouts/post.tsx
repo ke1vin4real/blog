@@ -19,7 +19,7 @@ export default function Post({ title }: Props) {
         </style>
         <article className="markdown-body">
           <h1>{title}</h1>
-          <p>{content}</p>
+          <div>{content}</div>
         </article>
       </Layout>
     );
