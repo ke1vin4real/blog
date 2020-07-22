@@ -2,8 +2,9 @@
 layout: post
 title: "浏览器的事件循环(Event Loop)"
 ---
->本文围绕浏览器的事件循环，而node.js有自己的另一套事件循环机制，不在本文讨论范围。网上的许多相关技术文章提到了`process.nextTick`和`setImmediate`两个node.js的API，这里不予讨论。
----
+
+#### 本文围绕浏览器的事件循环，而node.js有自己的另一套事件循环机制，不在本文讨论范围。网上的许多相关技术文章提到了`process.nextTick`和`setImmediate`两个node.js的API，这里不予讨论。
+
 先看[HTML标准][1]的一系列解释：
 
 >为了协调`事件`（event），`用户交互`（user interaction），`脚本`（script），`渲染`（rendering），`网络`（networking）等，用户代理（user agent）必须使用`事件循环`（event loops）。
@@ -13,11 +14,11 @@ title: "浏览器的事件循环(Event Loop)"
 现在我们知道了浏览器运行时有一个叫**事件循环**的机制。
 
 >一个事件循环有一个或者多个`任务队列`（task queues）。任务队列是task的有序列表，这些task是以下工作的对应算法：Events，Parsing，Callbacks，Using a resource，Reacting to DOM manipulation。
-
+>
 >每一个任务都来自一个特定的`任务源`（task source）。所有来自一个特定任务源并且属于特定事件循环的任务，通常必须被加入到同一个任务队列中，但是来自不同任务源的任务可能会放在不同的任务队列中。
-
+>
 >举个例子，用户代理有一个处理鼠标和键盘事件的任务队列。用户代理可以给这个队列比其他队列多3/4的执行时间，以确保交互的响应而不让其他任务队列饿死（starving），并且不会乱序处理任何一个任务队列的事件。
-
+>
 >每个事件循环都有一个进入`microtask`检查点（performing a microtask checkpoint）的flag标志，这个标志初始为false。它被用来组织反复调用‘进入microtask检查点’的算法。
 
 总结一下，一个事件循环里有很多个任务队列（task queues）来自不同任务源，每一个任务队列里的任务是严格按照先进先出的顺序执行的，但是不同任务队列的任务的执行顺序是不确定的。按我的理解就是，浏览器会自己**调度**不同任务队列。网上很多文章会提到`macrotask`这个概念，其实就是指代了标准里阐述的`task`。

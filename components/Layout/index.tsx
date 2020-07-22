@@ -12,7 +12,6 @@ const Layout = ({ children }: Props) => {
       <style jsx>{`
           nav {
             max-width: 900px;
-            font-size: 16px;
             display: flex;
             align-items: center;
             height: 40px;

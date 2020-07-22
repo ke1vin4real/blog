@@ -1,5 +1,6 @@
 import '../utils/global.css';
 import '../utils/github-markdown.css';
+import '../utils/github-code-block.css';
 import React from 'react';
 
 interface Props {

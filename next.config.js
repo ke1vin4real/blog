@@ -1,6 +1,6 @@
 const withMdxEnhanced = require('next-mdx-enhanced');
 const readingTime = require('reading-time');
-const mdxPrism = require('mdx-prism');
+const highlight = require('rehype-highlight');
 
 module.exports = withMdxEnhanced({
   layoutPath: 'layouts',
@@ -10,7 +10,7 @@ module.exports = withMdxEnhanced({
     require('remark-autolink-headings'),
     require('remark-slug'),
   ],
-  rehypePlugins: [mdxPrism],
+  rehypePlugins: [highlight],
   extendFrontMatter: {
     process: (mdxContent) => ({
       wordCount: mdxContent.split(/\s+/gu).length,
