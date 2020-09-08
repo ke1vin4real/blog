@@ -12,11 +12,12 @@ module.exports = withMdxEnhanced({
   ],
   rehypePlugins: [highlight],
   extendFrontMatter: {
-    process: (mdxContent) => ({
-      wordCount: mdxContent.split(/\s+/gu).length,
-      readingTime: readingTime(mdxContent),
-    }),
-    phase: 'prebuild|loader|both',
+    process: function(mdxContent) {
+      return {
+        wordCount: mdxContent.split(/\s+/gu).length,
+        readingTime: readingTime(mdxContent),
+      };
+    },
   },
 })({
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],

@@ -1,12 +1,18 @@
 import React from 'react';
 import Layout from '../components/Layout';
 
-interface Props {
+interface frontMatterProps {
   title: string,
+  readingTime: number,
 }
 
-export default function Post(props: Props) {
-  return (props2: { children: React.ReactNode }) => {
+interface Props {
+  children: React.ReactNode,
+}
+
+export default function Post({ title, readingTime }: frontMatterProps) {
+  console.log(readingTime)
+  return ({ children: content }: Props) => {
     return (
       <Layout>
         {/* language=SCSS */}
@@ -18,8 +24,8 @@ export default function Post(props: Props) {
         `}
         </style>
         <article className="markdown-body">
-          <h1>{props.title}</h1>
-          <div>{props2.children}</div>
+          <h1>{title}</h1>
+          <div>{content}</div>
         </article>
       </Layout>
     );

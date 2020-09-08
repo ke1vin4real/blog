@@ -11,12 +11,16 @@ const Layout = ({ children }: Props) => {
       {/* language=SCSS */}
       <style jsx>{`
           nav {
-            max-width: 900px;
             display: flex;
+            max-width: 700px;
             align-items: center;
             height: 40px;
             padding: 2rem;
             margin: 0 auto;
+            position: sticky;
+            top: 0;
+            background-color: rgba(255,255,255,0.8);
+            backdrop-filter: saturate(180%) blur(20px);
             
             ul {
               margin-left: auto;
@@ -43,17 +47,17 @@ const Layout = ({ children }: Props) => {
       <nav>
         <ul>
           <li>
-            <Link href="/Blog">
+            <Link href="/blog">
               <a>Blog</a>
             </Link>
           </li>
           <li>
-            <Link href="/About">
+            <Link href="/about">
               <a>About</a>
             </Link>
           </li>
           <li>
-            <Link href="/Home">
+            <Link href="/">
               <a>Home</a>
             </Link>
           </li>
