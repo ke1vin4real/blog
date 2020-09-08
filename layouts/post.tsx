@@ -5,8 +5,8 @@ interface Props {
   title: string,
 }
 
-export default function Post({ }: Props) {
-  return ({ children: content }: { children: React.ReactNode }) => {
+export default function Post(props: Props) {
+  return (props2: { children: React.ReactNode }) => {
     return (
       <Layout>
         {/* language=SCSS */}
@@ -18,7 +18,8 @@ export default function Post({ }: Props) {
         `}
         </style>
         <article className="markdown-body">
-          <div>{content}</div>
+          <h1>{props.title}</h1>
+          <div>{props2.children}</div>
         </article>
       </Layout>
     );

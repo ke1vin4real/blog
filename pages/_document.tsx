@@ -1,11 +1,8 @@
-import Document, { Html, Head, Main, NextScript } from 'next/document';
+import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/document';
 import React from 'react';
 
-interface Props {
-  ctx: Object,
-}
 export default class MyDocument extends Document {
-  static async getInitialProps(ctx: Props) {
+  static async getInitialProps(ctx: DocumentContext) {
     const initialProps = await Document.getInitialProps(ctx);
     return { ...initialProps };
   }

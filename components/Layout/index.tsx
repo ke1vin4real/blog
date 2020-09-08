@@ -15,7 +15,7 @@ const Layout = ({ children }: Props) => {
             display: flex;
             align-items: center;
             height: 40px;
-            padding: 32px;
+            padding: 2rem;
             margin: 0 auto;
             
             ul {
@@ -33,6 +33,10 @@ const Layout = ({ children }: Props) => {
             a {
               color: #1a202c;
             }
+          }
+          
+          main {
+            padding: 0 2rem;
           }
         `}
       </style>
