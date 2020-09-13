@@ -41,6 +41,9 @@ const Layout = ({ children }: Props) => {
           
           main {
             padding: 0 2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            color: #000;
           }
         `}
       </style>
