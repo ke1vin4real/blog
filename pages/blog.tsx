@@ -19,6 +19,7 @@ export default function BlogList() {
       <style jsx>{`
         .title {
           font-size: 1.25rem;
+          margin-bottom: 0.5rem;
           
           &-line {
             display: flex;
@@ -29,8 +30,10 @@ export default function BlogList() {
           margin-bottom: 1rem;
         }
         .post {
+          margin-bottom: 1rem;
           &-date {
             margin-left: auto;
+            margin-bottom: 0.5rem;
             color: #718096;
             min-width: 6.25rem;
             text-align: right;
@@ -38,16 +41,18 @@ export default function BlogList() {
           
           &-desc {
             color: #2D3748;
+            font-size: 0.9375rem;
           }
         }
         
-        @media (min-width: 481px) and (max-width: 767px) {
+        @media (max-width: 767px) {
           .title-line {
             flex-direction: column;
           }
           .post-date {
             margin-left: 0;
             text-align: left;
+            font-size: 0.875rem;
           }
         }
       `}
@@ -56,7 +61,7 @@ export default function BlogList() {
       <ul>
         {
           docsPages.map((page: Page) => (
-            <li key={page.__resourcePath}>
+            <li key={page.__resourcePath} className="post">
               <Link href={formatPath(page.__resourcePath)}>
                 <a>
                   <div className="title-line">

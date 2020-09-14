@@ -10,6 +10,7 @@ export default class MyDocument extends Document {
   render() {
     return (
       <Html>
+        <title>Kelvin's World</title>
         <Head>
           <meta content="width=device-width, initial-scale=1" name="viewport" />
           <link href="https://fonts.googleapis.com/css?family=Inter:400,600,700&display=swap" rel="stylesheet" />
