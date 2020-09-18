@@ -13,13 +13,6 @@ const Layout = ({ children }: Props) => {
     <>
       {/* language=SCSS */}
       <style jsx>{`
-        @media (min-width: 768px) {
-          nav, main, footer {
-            width: 700px;
-            max-width: 700px;
-          }
-        }
-        
         nav, main, footer {
           width: 100%;
           margin: 0 auto;
@@ -52,8 +45,8 @@ const Layout = ({ children }: Props) => {
         }
           
         main {
-          padding: 0 2rem;
           color: #000;
+          padding: 0 2rem;
         }  
         footer {
           margin-top: auto;
@@ -74,6 +67,16 @@ const Layout = ({ children }: Props) => {
           display: flex;
           align-items: center;
           justify-content: center;
+        }
+        @media (min-width: 768px) {
+          nav, main, footer {
+            width: 700px;
+            max-width: 700px;
+          }
+          
+          main {
+            padding: 0;
+          }
         }
       `}
       </style>
