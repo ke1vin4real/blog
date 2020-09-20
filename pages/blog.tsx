@@ -60,6 +60,7 @@ export default function BlogList() {
       </style>
       <NextSeo
         title="Blog - Kelvin's world"
+        canonical={`https://${process.env.NEXT_PUBLIC_HOST}/blog`}
       />
       <div className="section-title"><h2>All Posts</h2></div>
       <ul>

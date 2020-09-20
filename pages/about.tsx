@@ -7,6 +7,7 @@ export default function About() {
     <Layout>
       <NextSeo
         title="About Me - Kelvin's world"
+        canonical={`https://${process.env.NEXT_PUBLIC_HOST}/about`}
       />
       <h1>About Me</h1>
     </Layout>

@@ -7,7 +7,9 @@ export default function Home() {
   return (
     <Layout>
       <NextSeo
-        title="Kelvin's world"
+        title="Kelvin's World"
+        description="Kelvin's World"
+        canonical={`https://${process.env.NEXT_PUBLIC_HOST}`}
       />
       <Head>
         <link rel="icon" href="/favicon.ico" />
