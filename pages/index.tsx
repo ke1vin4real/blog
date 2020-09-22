@@ -1,7 +1,8 @@
 import Head from 'next/head';
 import Layout from '../components/Layout';
 import React from 'react';
-import {NextSeo} from "next-seo";
+import { NextSeo } from 'next-seo';
+import { HOST } from '../utils/constant';
 
 export default function Home() {
   return (
@@ -9,7 +10,7 @@ export default function Home() {
       <NextSeo
         title="Kelvin's World"
         description="Kelvin's World"
-        canonical={`https://${process.env.NEXT_PUBLIC_HOST}`}
+        canonical={`https://${HOST}`}
       />
       <Head>
         <link rel="icon" href="/favicon.ico" />

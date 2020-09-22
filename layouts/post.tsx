@@ -2,6 +2,7 @@ import React from 'react';
 import { NextSeo } from 'next-seo';
 import Layout from '../components/Layout';
 import { convertDateFormat } from '../utils/func';
+import { HOST } from '../utils/constant';
 
 interface frontMatterProps {
   title: string,
@@ -40,7 +41,7 @@ export default function Post(frontMatter: frontMatterProps) {
         <NextSeo
           title={title}
           description={description}
-          canonical={`https://${process.env.NEXT_PUBLIC_HOST}/${__resourcePath.replace('.mdx', '')}`}
+          canonical={`https://${HOST}/${__resourcePath.replace('.mdx', '')}`}
         />
         <article className="markdown-body">
           <h1>{title}</h1>
