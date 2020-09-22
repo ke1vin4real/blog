@@ -1,15 +1,20 @@
 import Head from 'next/head';
 import Layout from '../components/Layout';
 import React from 'react';
+import {NextSeo} from "next-seo";
 
 export default function Home() {
   return (
     <Layout>
+      <NextSeo
+        title="Kelvin's World"
+        description="Kelvin's World"
+        canonical={`https://${process.env.NEXT_PUBLIC_HOST}`}
+      />
       <Head>
-        <title>Ke1vin's Blog</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div>Home Page</div>
+      <h1>Home Page</h1>
     </Layout>
   );
 }

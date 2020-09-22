@@ -1,4 +1,5 @@
 import React from 'react';
+import { NextSeo } from 'next-seo';
 import Layout from '../components/Layout';
 import { convertDateFormat } from '../utils/func';
 
@@ -8,13 +9,16 @@ interface frontMatterProps {
     minutes: number,
   },
   date: Date,
+  description: string,
+  __resourcePath: string,
 }
 
 interface Props {
   children: React.ReactNode,
 }
 
-export default function Post({ title, date, readingTime }: frontMatterProps) {
+export default function Post(frontMatter: frontMatterProps) {
+  const { title, date, readingTime, description, __resourcePath } = frontMatter;
   return ({ children: content }: Props) => {
     return (
       <Layout>
@@ -33,6 +37,11 @@ export default function Post({ title, date, readingTime }: frontMatterProps) {
           }   
         `}
         </style>
+        <NextSeo
+          title={title}
+          description={description}
+          canonical={`https://${process.env.NEXT_PUBLIC_HOST}/${__resourcePath.replace('.mdx', '')}`}
+        />
         <article className="markdown-body">
           <h1>{title}</h1>
           <div className="info">
