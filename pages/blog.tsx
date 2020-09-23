@@ -15,6 +15,8 @@ interface Page {
 }
 
 export default function BlogList() {
+  const title = 'Blog - Kelvin';
+  const url = `https://${HOST}/blog`;
   return (
     <Layout>
       {/* language=SCSS */}
@@ -60,8 +62,12 @@ export default function BlogList() {
       `}
       </style>
       <NextSeo
-        title="Blog - Kelvin's world"
-        canonical={`https://${HOST}/blog`}
+        title={title}
+        canonical={url}
+        openGraph={{
+          url,
+          title,
+        }}
       />
       <div className="section-title"><h2>All Posts</h2></div>
       <ul>
