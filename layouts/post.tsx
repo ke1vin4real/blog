@@ -12,7 +12,7 @@ interface frontMatterProps {
   date: Date,
   description: string,
   __resourcePath: string,
-  image: string,
+  cover: string,
 }
 
 interface Props {
@@ -20,14 +20,14 @@ interface Props {
 }
 
 export default function Post(frontMatter: frontMatterProps) {
-  const { title, date, readingTime, description, __resourcePath, image } = frontMatter;
+  const { title, date, readingTime, description, __resourcePath, cover } = frontMatter;
 
   const publishedDate = new Date(date).toISOString();
 
   const url = `https://${HOST}/${__resourcePath.replace('.mdx', '')}`;
 
   const featuredImage = {
-    url: `https://${HOST}/${image}`,
+    url: `https://${HOST}/${cover}`,
     alt: title,
   };
 
@@ -48,7 +48,11 @@ export default function Post(frontMatter: frontMatterProps) {
             font-size: 0.875rem;
             color: #718096;
             margin-left: auto;
-          }   
+          }  
+          
+          .cover {
+            margin: 2rem 0;
+          } 
         `}
         </style>
         <NextSeo
@@ -70,7 +74,7 @@ export default function Post(frontMatter: frontMatterProps) {
           dateModified={publishedDate}
           datePublished={publishedDate}
           description={description}
-          images={[image]}
+          images={[cover]}
           authorName="Kelvin"
           publisherLogo="/favicon/android-chrome-192x192.png"
           publisherName="Kelvin"
@@ -83,6 +87,7 @@ export default function Post(frontMatter: frontMatterProps) {
             <span>{convertDateFormat(date)}</span>
             <span className="reading-time">{Math.ceil(readingTime.minutes)} min read</span>
           </div>
+          <img className="cover" src={cover} />
           <div>{content}</div>
         </article>
       </Layout>
