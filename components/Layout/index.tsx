@@ -51,22 +51,29 @@ const Layout = ({ children }: Props) => {
         footer {
           margin-top: auto;
           padding: 4rem 0 1rem 0;
+          text-align: center;
         }
         
         .icon {
           display: inline-block;
-          width: 1.125rem;
-          height: 1.125rem;
+          width: 1.25rem;
+          height: 1.25rem;
         }
         
         .icon + .icon {
-          margin-left: 1rem;
+          margin-left: 2rem;
         }
         
         .icons {
           display: flex;
           align-items: center;
           justify-content: center;
+        }
+        
+        .powered {
+          margin-top: 0.5rem;
+          font-size: 0.75rem;
+          color: #718096;
         }
         @media (min-width: 768px) {
           nav, main, footer {
@@ -105,6 +112,7 @@ const Layout = ({ children }: Props) => {
           <a href={config.GITHUB_HOMEPAGE} className="icon" dangerouslySetInnerHTML={{ __html: IconGithub }} />
           <a href={`mailto:${config.MAIL}`} className="icon" dangerouslySetInnerHTML={{ __html: IconMail }} />
         </div>
+        <div className="powered">Powered by Vercel</div>
       </footer>
     </>
   );

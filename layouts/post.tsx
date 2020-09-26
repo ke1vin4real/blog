@@ -1,5 +1,5 @@
 import React from 'react';
-import { NextSeo } from 'next-seo';
+import { NextSeo, ArticleJsonLd } from 'next-seo';
 import Layout from '../components/Layout';
 import { convertDateFormat } from '../utils/func';
 import { HOST } from '../utils/constant';
@@ -12,6 +12,7 @@ interface frontMatterProps {
   date: Date,
   description: string,
   __resourcePath: string,
+  cover: string,
 }
 
 interface Props {
@@ -19,8 +20,20 @@ interface Props {
 }
 
 export default function Post(frontMatter: frontMatterProps) {
-  const { title, date, readingTime, description, __resourcePath } = frontMatter;
+  const { title, date, readingTime, description, __resourcePath, cover } = frontMatter;
+
+  const publishedDate = new Date(date).toISOString();
+
+  const url = `https://${HOST}/${__resourcePath.replace('.mdx', '')}`;
+
+  const featuredImage = {
+    url: `https://${HOST}/${cover}`,
+    alt: title,
+  };
+
   return ({ children: content }: Props) => {
+    // @ts-ignore
+    // @ts-ignore
     return (
       <Layout>
         {/* language=SCSS */}
@@ -35,13 +48,38 @@ export default function Post(frontMatter: frontMatterProps) {
             font-size: 0.875rem;
             color: #718096;
             margin-left: auto;
-          }   
+          }  
+          
+          .cover {
+            margin: 2rem 0;
+          } 
         `}
         </style>
         <NextSeo
-          title={title}
+          title={`${title} - Kelvin`}
           description={description}
-          canonical={`https://${HOST}/${__resourcePath.replace('.mdx', '')}`}
+          canonical={url}
+          openGraph={{
+            url,
+            title,
+            description,
+            type: 'article',
+            article: {
+              publishedTime: publishedDate,
+            },
+            images: [featuredImage],
+          }}
+        />
+        <ArticleJsonLd
+          dateModified={publishedDate}
+          datePublished={publishedDate}
+          description={description}
+          images={[cover]}
+          authorName="Kelvin"
+          publisherLogo="/favicon/android-chrome-192x192.png"
+          publisherName="Kelvin"
+          title={title}
+          url={url}
         />
         <article className="markdown-body">
           <h1>{title}</h1>
@@ -49,6 +87,7 @@ export default function Post(frontMatter: frontMatterProps) {
             <span>{convertDateFormat(date)}</span>
             <span className="reading-time">{Math.ceil(readingTime.minutes)} min read</span>
           </div>
+          <img className="cover" src={cover} />
           <div>{content}</div>
         </article>
       </Layout>

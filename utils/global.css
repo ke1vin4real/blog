@@ -22,3 +22,10 @@ html {
   display: flex;
   flex-direction: column;
 }
+
+@media (max-width: 767px) {
+  #__next {
+    /* mobile viewport bug fix */
+    min-height: -webkit-fill-available;
+  }
+}
