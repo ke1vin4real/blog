@@ -81,6 +81,10 @@ const Layout = ({ children }: Props) => {
             max-width: 700px;
           }
           
+          nav {
+            padding: 2rem 0;
+          }
+          
           main {
             padding: 0;
           }
