@@ -1,6 +1,5 @@
 import React from 'react';
 import { NextSeo, ArticleJsonLd } from 'next-seo';
-import Layout from '../components/Layout';
 import { convertDateFormat } from '../utils/func';
 import { HOST } from '../utils/constant';
 
@@ -35,7 +34,7 @@ export default function Post(frontMatter: frontMatterProps) {
     // @ts-ignore
     // @ts-ignore
     return (
-      <Layout>
+      <>
         {/* language=SCSS */}
         <style jsx>{`
           .info {
@@ -90,7 +89,7 @@ export default function Post(frontMatter: frontMatterProps) {
           <img className="cover" src={cover} />
           <div>{content}</div>
         </article>
-      </Layout>
+      </>
     );
   };
 }

@@ -3,14 +3,32 @@ import Link from 'next/link';
 import IconGithub from '../../svgs/github.svg';
 import IconMail from '../../svgs/mail.svg';
 import * as config from '../../utils/constant';
+import { THEME_LIGHT, THEME_LIST } from '../../utils/constant';
+import ThemeSelection from "../ThemeSelection";
+
+const ThemeContext = React.createContext(THEME_LIGHT);
 
 interface Props {
   children: React.ReactNode,
+  themeSetting: number | null,
 }
 
-const Layout = ({ children }: Props) => {
+const Layout = ({ children, themeSetting }: Props) => {
+  const [ theme, setTheme ] = React.useState(themeSetting !== null ? THEME_LIST[themeSetting].key: THEME_LIGHT);
+
+  const onThemeChange = (themeIndex: number) => {
+    const theme = THEME_LIST[themeIndex].key;
+    setTheme(theme);
+
+    try {
+      window.localStorage.setItem('theme', theme);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
-    <>
+    <ThemeContext.Provider value={theme}>
       {/* language=SCSS */}
       <style jsx>{`
         nav, main, footer {
@@ -18,14 +36,18 @@ const Layout = ({ children }: Props) => {
           margin: 0 auto;
         }
         nav {
-          display: flex;
-          align-items: center;
-          height: 40px;
-          padding: 2rem;
           position: sticky;
           top: 0;
           background-color: rgba(255,255,255,0.8);
           backdrop-filter: saturate(180%) blur(20px);
+          height: 80px;
+        }
+        .nav-container {
+          display: flex;
+          align-items: center;
+          line-height: 1rem;
+          padding: 0 2rem;
+          height: 100%;
             
           ul {
             margin-left: auto;
@@ -76,7 +98,11 @@ const Layout = ({ children }: Props) => {
           color: #718096;
         }
         @media (min-width: 768px) {
-          nav, main, footer {
+          .nav-container {
+            margin: 0 auto;
+            padding: 0;
+          }
+          .nav-container, main, footer {
             width: 700px;
             max-width: 700px;
           }
@@ -88,23 +114,26 @@ const Layout = ({ children }: Props) => {
       `}
       </style>
       <nav>
-        <ul>
-          <li>
-            <Link href="/blog">
-              <a>Blog</a>
-            </Link>
-          </li>
-          <li>
-            <Link href="/about">
-              <a>About</a>
-            </Link>
-          </li>
-          <li>
-            <Link href="/">
-              <a>Home</a>
-            </Link>
-          </li>
-        </ul>
+        <div className="nav-container">
+          <ThemeSelection defaultValue={themeSetting !== null ? themeSetting : 0} list={THEME_LIST} onChange={onThemeChange} />
+          <ul>
+            <li>
+              <Link href="/blog">
+                <a>Blog</a>
+              </Link>
+            </li>
+            <li>
+              <Link href="/about">
+                <a>About</a>
+              </Link>
+            </li>
+            <li>
+              <Link href="/">
+                <a>Home</a>
+              </Link>
+            </li>
+          </ul>
+        </div>
       </nav>
       <main>{children}</main>
       <footer>
@@ -114,7 +143,7 @@ const Layout = ({ children }: Props) => {
         </div>
         <div className="powered">Powered by Vercel</div>
       </footer>
-    </>
+    </ThemeContext.Provider>
   );
 };
 

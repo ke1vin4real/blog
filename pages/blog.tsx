@@ -1,4 +1,3 @@
-import Layout from '../components/Layout';
 import React from 'react';
 import Link from 'next/link';
 // @ts-ignore
@@ -18,7 +17,7 @@ export default function BlogList() {
   const title = 'Blog - Kelvin';
   const url = `https://${HOST}/blog`;
   return (
-    <Layout>
+    <>
       {/* language=SCSS */}
       <style jsx>{`
         .title {
@@ -87,7 +86,7 @@ export default function BlogList() {
           ))
         }
       </ul>
-    </Layout>
+    </>
   );
 };
 
