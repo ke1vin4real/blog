@@ -86,7 +86,7 @@ const Layout: React.FC<Props> = ({ children }) => {
     return null;
   }
 
-  console.log(theme);
+  console.log(theme, isClientThemeLoaded);
 
   return (
     <ThemeContext.Provider value={theme}>
