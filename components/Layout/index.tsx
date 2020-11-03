@@ -1,31 +1,92 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Link from 'next/link';
 import IconGithub from '../../svgs/github.svg';
 import IconMail from '../../svgs/mail.svg';
 import * as config from '../../utils/constant';
-import { THEME_LIGHT, THEME_LIST } from '../../utils/constant';
+import { THEME_DARK, THEME_LIGHT, THEME_LIST, THEME_SYSTEM } from '../../utils/constant';
 import ThemeSelection from "../ThemeSelection";
+import { detectSystemTheme } from "../../utils/func";
+import themeColors from '../../utils/theme';
 
 const ThemeContext = React.createContext(THEME_LIGHT);
 
 interface Props {
   children: React.ReactNode,
-  themeSetting: number | null,
 }
 
-const Layout = ({ children, themeSetting }: Props) => {
-  const [ theme, setTheme ] = React.useState(themeSetting !== null ? THEME_LIST[themeSetting].key: THEME_LIGHT);
+const Layout: React.FC<Props> = ({ children }) => {
+  const [ theme, setTheme ] = React.useState<string>(THEME_LIGHT);
+  const [ localTheme, setLocalTheme ] = React.useState<string | null>(null);
+  const [ isClientThemeLoaded, setLoaded ] = useState<boolean>(false); // is theme in localStorage loaded
+  const [ themeOptions, setThemeOptions ] = useState<Array<any>>([...THEME_LIST]);
 
-  const onThemeChange = (themeIndex: number) => {
-    const theme = THEME_LIST[themeIndex].key;
-    setTheme(theme);
+  function onThemeChange (nextTheme: string) {
+    if (theme === THEME_SYSTEM && nextTheme !== THEME_SYSTEM) {
+      setTheme(nextTheme);
+      removeMediaQueryEvent();
+    } else if (theme !== THEME_SYSTEM && nextTheme === THEME_SYSTEM) {
+      const systemTheme = detectSystemTheme()
+      setTheme(systemTheme ? systemTheme : THEME_LIGHT);
+      addMediaQueryEvent();
+    } else {
+      setTheme(nextTheme);
+    }
 
     try {
-      window.localStorage.setItem('theme', theme);
+      window.localStorage.setItem('ke1vin-blog-theme', nextTheme);
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
-  };
+  }
+
+  function onSystemThemeChange (e: MediaQueryListEvent) {
+    setTheme(e.matches ? THEME_DARK : THEME_LIGHT);
+  }
+
+  function addMediaQueryEvent () {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', onSystemThemeChange);
+  }
+
+  function removeMediaQueryEvent () {
+    window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', onSystemThemeChange);
+  }
+
+  useEffect(() => {
+    let currentSystemColorMode = null;
+
+    try {
+      currentSystemColorMode = detectSystemTheme(() => {
+        setThemeOptions(THEME_LIST.filter(({ key }) => key !== 'system'));
+      });
+    } catch (e) {
+      console.error(e);
+    }
+
+    try {
+      const localTheme = window.localStorage.getItem('ke1vin-blog-theme');
+      if (localTheme !== null) {
+        const isSystemColor = localTheme === THEME_SYSTEM;
+        setLocalTheme(localTheme);
+        setTheme(isSystemColor ? currentSystemColorMode !== null ? currentSystemColorMode : THEME_LIGHT : localTheme);
+
+        if (isSystemColor) {
+          addMediaQueryEvent();
+        }
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoaded(true);
+    }
+
+    return removeMediaQueryEvent;
+  }, []);
+
+  if (typeof window !== 'undefined' && !isClientThemeLoaded) {
+    return null;
+  }
+
+  console.log(theme);
 
   return (
     <ThemeContext.Provider value={theme}>
@@ -113,9 +174,16 @@ const Layout = ({ children, themeSetting }: Props) => {
         }
       `}
       </style>
+      {/* language=SCSS */}
+      <style global jsx>{`
+        body {
+          background-color: ${themeColors.body[theme]};
+        }
+      `}
+      </style>
       <nav>
         <div className="nav-container">
-          <ThemeSelection defaultValue={themeSetting !== null ? themeSetting : 0} list={THEME_LIST} onChange={onThemeChange} />
+          <ThemeSelection options={themeOptions} defaultValue={localTheme ? localTheme : theme} onChange={onThemeChange} />
           <ul>
             <li>
               <Link href="/blog">

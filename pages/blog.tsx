@@ -16,6 +16,7 @@ interface Page {
 export default function BlogList() {
   const title = 'Blog - Kelvin';
   const url = `https://${HOST}/blog`;
+
   return (
     <>
       {/* language=SCSS */}

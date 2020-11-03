@@ -1,3 +1,5 @@
+import { THEME_DARK, THEME_LIGHT } from './constant';
+
 /***
  * @description {Date} => yyyy-MM-dd HH:mm:ss
  * @param {Date} date date对象
@@ -49,4 +51,19 @@ export const getCookie = function(name: string, allCookies: string) {
   }
   
   return '';
+};
+
+export const detectSystemTheme = function (fallback?: Function) {
+  const isSystemDark = window?.matchMedia('(prefers-color-scheme: dark)')?.matches;
+  const isSystemLight = window?.matchMedia('(prefers-color-scheme: light)')?.matches;
+
+  if (!isSystemDark && !isSystemLight) {
+    fallback && fallback();
+  } else if (isSystemDark) {
+    return THEME_DARK;
+  } else if (isSystemLight) {
+    return THEME_LIGHT;
+  }
+
+  return null;
 };

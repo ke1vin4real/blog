@@ -1,25 +1,26 @@
 import React, { useState, useRef, SyntheticEvent } from 'react';
-import {setCookie} from "../../utils/func";
 
 interface Props {
-  defaultValue?: number,
-  list: Array<{
+  defaultValue?: string,
+  onChange: (item: string) => void,
+  options: Array<{
     key: string,
     icon: string,
   }>,
-  onChange: (item: number) => void,
 }
 
-const ThemeSelection = ({ list, onChange, defaultValue }: Props) => {
-  const [ current, setCurrent ] = useState(defaultValue);
+const ThemeSelection = ({onChange, defaultValue, options }: Props) => {
+  const [ current, setCurrent ] = useState(options.findIndex((item) => item.key === defaultValue));
   const [ showOptions, setShowOptions ] = useState(false);
   const optionsRef = useRef<HTMLUListElement>(null);
 
   const handleClickItem = (itemIndex: number) => {
-    setCurrent(itemIndex);
-    onChange(itemIndex);
+    if (itemIndex !== current) {
+      setCurrent(itemIndex);
+      onChange(options?.[itemIndex]?.key);
+    }
+
     setShowOptions(false);
-    setCookie('theme', itemIndex.toString());
   };
 
   const toggleShowOptions = (e: SyntheticEvent) => {
@@ -87,14 +88,14 @@ const ThemeSelection = ({ list, onChange, defaultValue }: Props) => {
       `}
       </style>
       <div className="current">
-        <a className="icon" dangerouslySetInnerHTML={{ __html: current !== undefined ? list?.[current]?.icon : '' }} />
-        <span className="theme-name">{current !== undefined ? list?.[current]?.key : ''}</span>
+        <a className="icon" dangerouslySetInnerHTML={{ __html: current !== undefined ? options?.[current]?.icon : '' }} />
+        <span className="theme-name">{current !== undefined ? options?.[current]?.key : ''}</span>
       </div>
       {
         showOptions && (
           <ul className="options" ref={optionsRef}>
             {
-              list.map(({ key, icon }, index) => {
+              options.map(({ key, icon }, index) => {
                 return (
                   <li key={key} onClick={() => handleClickItem(index)}>
                     <a className="icon" dangerouslySetInnerHTML={{ __html: icon }} />
