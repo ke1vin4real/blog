@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import IconGithub from '../../svgs/github.svg';
 import IconMail from '../../svgs/mail.svg';
@@ -6,7 +6,6 @@ import * as config from '../../utils/constant';
 import { THEME_DARK, THEME_LIGHT, THEME_LIST, THEME_SYSTEM } from '../../utils/constant';
 import ThemeSelection from "../ThemeSelection";
 import { detectSystemTheme } from "../../utils/func";
-import themeColors from '../../utils/theme';
 
 const ThemeContext = React.createContext(THEME_LIGHT);
 
@@ -21,25 +20,42 @@ const Layout: React.FC<Props> = ({ children }) => {
   const [ themeOptions, setThemeOptions ] = useState<Array<any>>([...THEME_LIST]);
 
   function onThemeChange (nextTheme: string) {
+    let nextColorMode = null;
     if (theme === THEME_SYSTEM && nextTheme !== THEME_SYSTEM) {
-      setTheme(nextTheme);
+      nextColorMode = nextTheme;
       removeMediaQueryEvent();
+
     } else if (theme !== THEME_SYSTEM && nextTheme === THEME_SYSTEM) {
-      const systemTheme = detectSystemTheme()
-      setTheme(systemTheme ? systemTheme : THEME_LIGHT);
+      const systemTheme = detectSystemTheme();
+      nextColorMode = systemTheme ? systemTheme : THEME_LIGHT;
       addMediaQueryEvent();
+
     } else {
-      setTheme(nextTheme);
+      nextColorMode = nextTheme;
     }
+
+    setTheme(nextTheme);
 
     try {
       window.localStorage.setItem('ke1vin-blog-theme', nextTheme);
+      if (nextColorMode === THEME_DARK) {
+        document.documentElement.classList.add('dark-theme');
+      } else {
+        document.documentElement.classList.remove('dark-theme');
+      }
     } catch (e) {
       console.error(e);
     }
   }
 
   function onSystemThemeChange (e: MediaQueryListEvent) {
+    const nextColorMode = e.matches ? THEME_DARK : THEME_LIGHT;
+
+    if (nextColorMode === THEME_DARK) {
+      document.documentElement.classList.add('dark-theme');
+    } else {
+      document.documentElement.classList.remove('dark-theme');
+    }
     setTheme(e.matches ? THEME_DARK : THEME_LIGHT);
   }
 
@@ -63,8 +79,8 @@ const Layout: React.FC<Props> = ({ children }) => {
     }
 
     try {
-      const localTheme = window.localStorage.getItem('ke1vin-blog-theme');
-      if (localTheme !== null) {
+      const localTheme = window.__LOCAL_THEME__;
+      if (localTheme !== undefined) {
         const isSystemColor = localTheme === THEME_SYSTEM;
         setLocalTheme(localTheme);
         setTheme(isSystemColor ? currentSystemColorMode !== null ? currentSystemColorMode : THEME_LIGHT : localTheme);
@@ -82,12 +98,6 @@ const Layout: React.FC<Props> = ({ children }) => {
     return removeMediaQueryEvent;
   }, []);
 
-  if (typeof window !== 'undefined' && !isClientThemeLoaded) {
-    return null;
-  }
-
-  console.log(theme, isClientThemeLoaded);
-
   return (
     <ThemeContext.Provider value={theme}>
       {/* language=SCSS */}
@@ -99,7 +109,7 @@ const Layout: React.FC<Props> = ({ children }) => {
         nav {
           position: sticky;
           top: 0;
-          background-color: rgba(255,255,255,0.8);
+          background-color: var(--nav-background-color);
           backdrop-filter: saturate(180%) blur(20px);
           height: 80px;
         }
@@ -123,7 +133,7 @@ const Layout: React.FC<Props> = ({ children }) => {
           }
             
           a {
-            color: #1a202c;
+            color: var(--nav-color);
           }
         }
           
@@ -176,14 +186,30 @@ const Layout: React.FC<Props> = ({ children }) => {
       </style>
       {/* language=SCSS */}
       <style global jsx>{`
+        :root {
+          --body-color: #fff;
+          --nav-background-color: rgba(255,255,255,0.8);
+          --main-text-color: #000;
+          --nav-color: #1a202c;
+        }
+        
+        .dark-theme :root {
+          --body-color: rgb(23, 25, 35);
+          --nav-background-color: rgba(23, 25, 35, 0.8);
+          --main-text-color: #fff;
+          --nav-color: #fff;
+        }
+        
         body {
-          background-color: ${themeColors.body[theme]};
+          background-color: var(--body-color);
         }
       `}
       </style>
       <nav>
         <div className="nav-container">
-          <ThemeSelection options={themeOptions} defaultValue={localTheme ? localTheme : theme} onChange={onThemeChange} />
+          {
+            isClientThemeLoaded && <ThemeSelection options={themeOptions} defaultValue={localTheme ? localTheme : theme} onChange={onThemeChange} />
+          }
           <ul>
             <li>
               <Link href="/blog">
