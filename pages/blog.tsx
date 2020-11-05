@@ -1,4 +1,3 @@
-import Layout from '../components/Layout';
 import React from 'react';
 import Link from 'next/link';
 // @ts-ignore
@@ -17,13 +16,15 @@ interface Page {
 export default function BlogList() {
   const title = 'Blog - Kelvin';
   const url = `https://${HOST}/blog`;
+
   return (
-    <Layout>
+    <>
       {/* language=SCSS */}
       <style jsx>{`
         .title {
           font-size: 1.25rem;
           margin-bottom: 0.5rem;
+          color: var(--main-text-color);
           
           &-line {
             display: flex;
@@ -32,6 +33,7 @@ export default function BlogList() {
         }
         .section-title {
           margin-bottom: 1rem;
+          color: var(--main-text-color);
         }
         .post {
           margin-bottom: 1rem;
@@ -44,7 +46,7 @@ export default function BlogList() {
           }
           
           &-desc {
-            color: #2D3748;
+            color: #718096;
             font-size: 0.9375rem;
           }
         }
@@ -87,7 +89,7 @@ export default function BlogList() {
           ))
         }
       </ul>
-    </Layout>
+    </>
   );
 };
 
