@@ -60,11 +60,21 @@ const Layout: React.FC<Props> = ({ children }) => {
   }
 
   function addMediaQueryEvent () {
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', onSystemThemeChange);
+    const mediaQueryList: MediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
+    if (mediaQueryList.addEventListener) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', onSystemThemeChange);
+    } else if (mediaQueryList.addListener) {
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(onSystemThemeChange);
+    }
   }
 
   function removeMediaQueryEvent () {
-    window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', onSystemThemeChange);
+    const mediaQueryList: MediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
+    if (mediaQueryList.removeEventListener) {
+      window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', onSystemThemeChange);
+    } else if (mediaQueryList.removeListener) {
+      window.matchMedia('(prefers-color-scheme: dark)').removeListener(onSystemThemeChange);
+    }
   }
 
   useEffect(() => {
@@ -121,6 +131,7 @@ const Layout: React.FC<Props> = ({ children }) => {
           line-height: 1rem;
           padding: 0 2rem;
           height: 100%;
+          user-select: none;
             
           ul {
             margin-left: auto;
