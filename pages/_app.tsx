@@ -3,7 +3,6 @@ import { DefaultSeo } from 'next-seo';
 import { AppProps } from 'next/app';
 import '../utils/global.css';
 import '../utils/github-markdown.css';
-import '../utils/github-code-block.css';
 import SEO from '../next-seo.config';
 import Layout from '../components/Layout';
 

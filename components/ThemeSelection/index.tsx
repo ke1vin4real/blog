@@ -1,4 +1,4 @@
-import React, { useState, useRef, SyntheticEvent } from 'react';
+import React, { useState, useRef, SyntheticEvent, useEffect } from 'react';
 
 interface Props {
   defaultValue?: string,
@@ -13,6 +13,7 @@ const ThemeSelection = ({onChange, defaultValue, options }: Props) => {
   const [ current, setCurrent ] = useState(options.findIndex((item) => item.key === defaultValue));
   const [ showOptions, setShowOptions ] = useState(false);
   const optionsRef = useRef<HTMLUListElement>(null);
+  const selectionRef = useRef<HTMLDivElement>(null);
 
   const handleClickItem = (itemIndex: number) => {
     if (itemIndex !== current) {
@@ -29,8 +30,22 @@ const ThemeSelection = ({onChange, defaultValue, options }: Props) => {
     }
   };
 
+  function handleBodyClick (e: MouseEvent) {
+    if (selectionRef.current && !selectionRef.current.contains(e.target as HTMLElement)) {
+      setShowOptions(false);
+    }
+  }
+
+  useEffect(() => {
+    document.body.addEventListener('click', handleBodyClick);
+
+    return () => {
+      document.body.removeEventListener('click', handleBodyClick);
+    }
+  }, []);
+
   return (
-    <div className="theme-selection" onClick={toggleShowOptions}>
+    <div ref={selectionRef} className="theme-selection" onClick={toggleShowOptions}>
       {/* language=SCSS */}
       <style jsx>{`
         .theme-selection {
@@ -40,22 +55,24 @@ const ThemeSelection = ({onChange, defaultValue, options }: Props) => {
           position: relative;
           width: 5rem;
           height: 2rem;
-          border: 1px solid #eaeaea;
+          border: 1px solid var(--selection-border-color);
           border-radius: 5px;
           user-select: none;
           color: #999;
           font-size: 0.75rem;
           outline: none;
           cursor: pointer;
+          background-color: var(--body-color);
         }
         .options {
           position: absolute;
           top: 100%;
           width: 5rem;
-          border: 1px solid #eaeaea;
+          border: 1px solid var(--selection-border-color);
           border-radius: 5px;
           z-index: 2;
-          background-color: #fff;
+          background-color: inherit;
+          overflow: hidden;
           
           li {
             height: 1.5rem;
@@ -63,6 +80,14 @@ const ThemeSelection = ({onChange, defaultValue, options }: Props) => {
             align-items: center;
             line-height: 0.875rem;
             padding-left: 0.4rem;
+            
+            &:hover {
+              background-color: var(--selection-item-hover-background-color);
+            }
+            
+            &:active {
+              background-color: var(--selection-item-hover-background-color);
+            }
           }
         }
         .current {

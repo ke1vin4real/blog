@@ -135,7 +135,7 @@
 }
 
 .markdown-body a {
-  color: #0366d6;
+  color: var(--post-link-color);
   text-decoration: none;
 }
 
@@ -650,9 +650,16 @@
 }
 
 .markdown-body blockquote {
-  padding: 0 1em;
-  color: #6a737d;
-  border-left: .25em solid #dfe2e5;
+  padding: 1em;
+  color: var(--markdown-blockquote-text-color);
+  border-left: .25em solid var(--markdown-blockquote-border-color);
+  background-color: var(--markdown-blockquote-background-color);
+  font-style: italic;
+  line-height: 2;
+}
+
+.markdown-body blockquote p {
+  line-height: 2;
 }
 
 .markdown-body blockquote>:first-child {
@@ -824,7 +831,7 @@
   overflow: auto;
   font-size: 85%;
   line-height: 1.45;
-  background-color: #f6f8fa;
+  background-color: var(--markdown-pre-background-color);
   border-radius: 3px;
 }
 

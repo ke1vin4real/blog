@@ -24,6 +24,7 @@ export default function BlogList() {
         .title {
           font-size: 1.25rem;
           margin-bottom: 0.5rem;
+          color: var(--main-text-color);
           
           &-line {
             display: flex;
@@ -32,6 +33,7 @@ export default function BlogList() {
         }
         .section-title {
           margin-bottom: 1rem;
+          color: var(--main-text-color);
         }
         .post {
           margin-bottom: 1rem;
@@ -44,7 +46,7 @@ export default function BlogList() {
           }
           
           &-desc {
-            color: #2D3748;
+            color: #718096;
             font-size: 0.9375rem;
           }
         }

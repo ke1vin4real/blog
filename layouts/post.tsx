@@ -52,6 +52,10 @@ export default function Post(frontMatter: frontMatterProps) {
           .cover {
             margin: 2rem 0;
           } 
+          
+          .post-date {
+            color: var(--post-date-text-color);
+          }
         `}
         </style>
         <NextSeo
@@ -83,7 +87,7 @@ export default function Post(frontMatter: frontMatterProps) {
         <article className="markdown-body">
           <h1>{title}</h1>
           <div className="info">
-            <span>{convertDateFormat(date)}</span>
+            <span className="post-date">{convertDateFormat(date)}</span>
             <span className="reading-time">{Math.ceil(readingTime.minutes)} min read</span>
           </div>
           <img className="cover" src={cover} />
