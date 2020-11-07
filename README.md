@@ -1,8 +1,8 @@
-#ke1vin.io
+# ke1vin.io
 
 My blog powered by [Next.js](https://nextjs.org/)
 
-##Todos
+## Todos
 
 - [x] Light/Dark/System theme
 - [ ] PWA
