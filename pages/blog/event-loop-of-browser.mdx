@@ -83,12 +83,13 @@ promise1
 promise2
 setTimeout
 ```
-解释一下过程。
+解释一下过程：
+
 1. 一开始task队列中只有script，则script中所有函数放入函数执行栈执行，代码按顺序执行。
-接着遇到了`setTimeout`,**它的作用是0ms后将回调函数放入task队列中**，也就是说这个函数将在下一个事件循环中执行（注意这时候setTimeout执行完毕就返回了）。
-2. 接着遇到了`Promise`，按照前面所述Promise属于microtask，所以第一个.then()会放入microtask队列。
-3. 当所有script代码执行完毕后，**此时函数执行栈为空**。开始检查microtask队列，此时队列不为空,执行.then()的回调函数输出'promise1'，由于.then()返回的依然是promise,所以第二个.then()会放入microtask队列继续执行,输出'promise2'。
-4. 此时microtask队列为空了，进入下一个事件循环，检查task队列发现了setTimeout的回调函数，立即执行回调函数输出'setTimeout'，代码执行完毕。
+2. 接着遇到了`setTimeout`,**它的作用是0ms后将回调函数放入task队列中**，也就是说这个函数将在下一个事件循环中执行（注意这时候setTimeout执行完毕就返回了）。
+3. 接着遇到了`Promise`，按照前面所述Promise属于microtask，所以第一个.then()会放入microtask队列。
+4. 当所有script代码执行完毕后，**此时函数执行栈为空**。开始检查microtask队列，此时队列不为空,执行.then()的回调函数输出'promise1'，由于.then()返回的依然是promise,所以第二个.then()会放入microtask队列继续执行,输出'promise2'。
+5. 此时microtask队列为空了，进入下一个事件循环，检查task队列发现了setTimeout的回调函数，立即执行回调函数输出'setTimeout'，代码执行完毕。
 
 继续看一个更有趣的例子：
 
