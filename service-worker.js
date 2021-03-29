@@ -54,7 +54,6 @@ const navigationHandler = async (params) => {
     return await networkFirst.handle(params);
   } catch (error) {
     // If it fails, return the cached HTML.
-    console.log(await caches.match('/offline.html'));
     return caches.match(FALLBACK_HTML_URL, {
       cacheName: CACHE_NAME,
     });
