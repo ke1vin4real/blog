@@ -35,6 +35,6 @@ yarn-error.log*
 .mdx-data
 
 /public/sw.js
-/public/sw.map
+/public/sw.js.map
 /public/workbox-*.js
 /public/workbox-*.js.map
