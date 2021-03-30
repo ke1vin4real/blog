@@ -45,6 +45,10 @@ module.exports = withMdxEnhanced({
       ],
     });
 
+    if (options.isServer) {
+      return config;
+    }
+
     const manifestEntries = globby.sync(
       [
         '**/*',
