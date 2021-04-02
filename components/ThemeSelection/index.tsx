@@ -113,7 +113,7 @@ const ThemeSelection = ({onChange, defaultValue, options }: Props) => {
       `}
       </style>
       <div className="current">
-        <a className="icon" dangerouslySetInnerHTML={{ __html: current !== undefined ? options?.[current]?.icon : '' }} />
+        <span className="icon" dangerouslySetInnerHTML={{ __html: current !== undefined ? options?.[current]?.icon : '' }} />
         <span className="theme-name">{current !== undefined ? options?.[current]?.key : ''}</span>
       </div>
       {
@@ -123,7 +123,7 @@ const ThemeSelection = ({onChange, defaultValue, options }: Props) => {
               options.map(({ key, icon }, index) => {
                 return (
                   <li key={key} onClick={() => handleClickItem(index)}>
-                    <a className="icon" dangerouslySetInnerHTML={{ __html: icon }} />
+                    <span className="icon" dangerouslySetInnerHTML={{ __html: icon }} />
                     <span className="theme-name">{key}</span>
                   </li>
                 )

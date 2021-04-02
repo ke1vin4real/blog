@@ -18,9 +18,8 @@ interface Props {
   children: React.ReactNode,
 }
 
-export default function Post(frontMatter: frontMatterProps) {
+export default function Post({ frontMatter, children: content }: { frontMatter: frontMatterProps, children: Props }) {
   const { title, date, readingTime, description, __resourcePath, cover } = frontMatter;
-
   const publishedDate = new Date(date).toISOString();
 
   const url = `https://${HOST}/${__resourcePath.replace('.mdx', '')}`;
@@ -30,13 +29,10 @@ export default function Post(frontMatter: frontMatterProps) {
     alt: title,
   };
 
-  return ({ children: content }: Props) => {
-    // @ts-ignore
-    // @ts-ignore
-    return (
-      <>
-        {/* language=SCSS */}
-        <style jsx>{`
+  return (
+    <>
+      {/* language=SCSS */}
+      <style jsx>{`
           .info {
             font-size: 0.875rem;
             color: #2D3748;
@@ -57,43 +53,42 @@ export default function Post(frontMatter: frontMatterProps) {
             color: var(--post-date-text-color);
           }
         `}
-        </style>
-        <NextSeo
-          title={`${title} - Kelvin`}
-          description={description}
-          canonical={url}
-          openGraph={{
-            url,
-            title,
-            description,
-            type: 'article',
-            article: {
-              publishedTime: publishedDate,
-            },
-            images: [featuredImage],
-          }}
-        />
-        <ArticleJsonLd
-          dateModified={publishedDate}
-          datePublished={publishedDate}
-          description={description}
-          images={[cover]}
-          authorName="Kelvin"
-          publisherLogo="/favicon/android-chrome-192x192.png"
-          publisherName="Kelvin"
-          title={title}
-          url={url}
-        />
-        <article className="markdown-body">
-          <h1>{title}</h1>
-          <div className="info">
-            <span className="post-date">{convertDateFormat(date)}</span>
-            <span className="reading-time">{Math.ceil(readingTime.minutes)} min read</span>
-          </div>
-          <img className="cover" src={cover} />
-          <div>{content}</div>
-        </article>
-      </>
-    );
-  };
+      </style>
+      <NextSeo
+        title={`${title} - Kelvin`}
+        description={description}
+        canonical={url}
+        openGraph={{
+          url,
+          title,
+          description,
+          type: 'article',
+          article: {
+            publishedTime: publishedDate,
+          },
+          images: [featuredImage],
+        }}
+      />
+      <ArticleJsonLd
+        dateModified={publishedDate}
+        datePublished={publishedDate}
+        description={description}
+        images={[cover]}
+        authorName="Kelvin"
+        publisherLogo="/favicon/android-chrome-192x192.png"
+        publisherName="Kelvin"
+        title={title}
+        url={url}
+      />
+      <article className="markdown-body">
+        <h1>{title}</h1>
+        <div className="info">
+          <span className="post-date">{convertDateFormat(date)}</span>
+          <span className="reading-time">{Math.ceil(readingTime.minutes)} min read</span>
+        </div>
+        <img className="cover" src={cover} />
+        <div>{content}</div>
+      </article>
+    </>
+  );
 }
