@@ -105,8 +105,7 @@ module.exports = withMdxEnhanced({
         ],
         modifyURLPrefix: {
           'static/': '/_next/static/',
-        },
-        mode: dev ? 'development' : 'production',
+        }
       }),
     );
 

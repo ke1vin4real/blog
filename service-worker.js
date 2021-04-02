@@ -17,10 +17,7 @@ const CACHE_NAME = 'offline-html';
 const FALLBACK_HTML_URL = '/offline.html';
 
 self.addEventListener('install', async (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.add(FALLBACK_HTML_URL))
-  );
-
+  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.add(FALLBACK_HTML_URL)));
   self.skipWaiting();
 });
 

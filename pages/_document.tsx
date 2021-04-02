@@ -45,6 +45,10 @@ export default class MyDocument extends Document {
                      }).catch(registrationError => {
                        console.log('SW registration failed: ', registrationError);
                      });
+                     
+                     navigator.serviceWorker.oncontrollerchange = function() {
+                       console.log('This page is now controlled by:', navigator.serviceWorker.controller);
+                     };
                    });
                  }
               `,
