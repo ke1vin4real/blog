@@ -39,7 +39,7 @@
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^6.8.0",
     "eslint-plugin-react": "^7.19.0",
-    "node-sass": "^4.14.0",
+    "node-sass": "^7.0.0",
     "rehype": "^11.0.0",
     "styled-jsx-plugin-sass": "^1.0.0",
     "svg-inline-loader": "^0.8.2",
