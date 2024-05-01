@@ -29,6 +29,7 @@ module.exports = withMdxEnhanced({
     },
   },
 })({
+  webpack5: false,
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
   webpack(config, options) {
     const { dev } = options;
