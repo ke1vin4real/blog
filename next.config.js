@@ -29,16 +29,13 @@ module.exports = withMdxEnhanced({
     },
   },
 })({
-  webpack5: false,
+  // webpack5: false,
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
   webpack(config, options) {
     const { dev } = options;
     config.module.rules.push({
       test: /\.svg$/,
-      issuer: {
-        // Next.js already handles url() in css/sass/scss files
-        test: /\.\w+(?<!(s?c|sa)ss)$/i,
-      },
+      issuer: /\.\w+(?<!(s?c|sa)ss)$/i,       // Next.js already handles url() in css/sass/scss files
       use: [
         {
           loader: require.resolve('svg-inline-loader'),
