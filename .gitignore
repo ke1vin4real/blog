@@ -31,8 +31,7 @@ yarn-error.log*
 
 .idea/
 
-# Ignore next-mdx-enhanced cache directory
-.mdx-data
+/.vscode/
 
 /public/sw.js
 /public/sw.js.map

@@ -1,4 +1,3 @@
-import React from 'react';
 import { DefaultSeo } from 'next-seo';
 import { AppProps } from 'next/app';
 import '../utils/global.css';

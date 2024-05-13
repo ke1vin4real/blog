@@ -1,6 +1,3 @@
-const withMdxEnhanced = require('next-mdx-enhanced');
-const readingTime = require('reading-time');
-const highlight = require('rehype-highlight');
 const { InjectManifest } = require('workbox-webpack-plugin');
 // const runtimeCaching = require('./runtimeCache');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -11,26 +8,8 @@ const path = require('path');
 
 const getRevision = (file) => crypto.createHash('md5').update(fs.readFileSync(file)).digest('hex');
 
-module.exports = withMdxEnhanced({
-  layoutPath: 'layouts',
-  defaultLayout: true,
-  fileExtensions: ['mdx'],
-  remarkPlugins: [
-    require('remark-autolink-headings'),
-    require('remark-slug'),
-  ],
-  rehypePlugins: [highlight],
-  extendFrontMatter: {
-    process: function(mdxContent) {
-      return {
-        wordCount: mdxContent.split(/\s+/gu).length,
-        readingTime: readingTime(mdxContent),
-      };
-    },
-  },
-})({
-  // webpack5: false,
-  pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
+module.exports = {
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
   webpack(config, options) {
     const { dev } = options;
     config.module.rules.push({
@@ -109,4 +88,4 @@ module.exports = withMdxEnhanced({
 
     return config;
   },
-});
+};
