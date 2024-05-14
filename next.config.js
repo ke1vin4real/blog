@@ -10,6 +10,7 @@ const getRevision = (file) => crypto.createHash('md5').update(fs.readFileSync(fi
 
 module.exports = {
   pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
+  swcMinify: true,
   webpack(config, options) {
     const { dev } = options;
     config.module.rules.push({
