@@ -61,18 +61,18 @@ const Layout: React.FC<Props> = ({ children }) => {
 
   function addMediaQueryEvent () {
     const mediaQueryList: MediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
-    if (mediaQueryList.addEventListener) {
+    if ('addEventListener' in mediaQueryList) {
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', onSystemThemeChange);
-    } else if (mediaQueryList.addListener) {
+    } else if ('addListener' in mediaQueryList) {
       window.matchMedia('(prefers-color-scheme: dark)').addListener(onSystemThemeChange);
     }
   }
 
   function removeMediaQueryEvent () {
     const mediaQueryList: MediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
-    if (mediaQueryList.removeEventListener) {
+    if ('removeEventListener' in mediaQueryList) {
       window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', onSystemThemeChange);
-    } else if (mediaQueryList.removeListener) {
+    } else if ('removeListener' in mediaQueryList) {
       window.matchMedia('(prefers-color-scheme: dark)').removeListener(onSystemThemeChange);
     }
   }
