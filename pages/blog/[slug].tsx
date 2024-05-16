@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
+import Image from 'next/image'
 import { serialize } from "next-mdx-remote/serialize";
 import { NextSeo, ArticleJsonLd } from 'next-seo';
 import { HOST } from '../../utils/constant';
@@ -76,6 +77,7 @@ export default function MDX({ source, frontMatter }: { source: MDXRemoteSerializ
             font-size: 0.875rem;
             color: #2D3748;
             display: flex;
+            margin-bottom: 2rem;
           }
               
           .reading-time {
@@ -84,12 +86,8 @@ export default function MDX({ source, frontMatter }: { source: MDXRemoteSerializ
             margin-left: auto;
           }  
               
-          .cover {
-            margin: 2rem 0;
-          } 
-              
           .post-date {
-          color: var(--post-date-text-color);
+           color: var(--post-date-text-color);
           }
             `}
       </style>
@@ -124,7 +122,7 @@ export default function MDX({ source, frontMatter }: { source: MDXRemoteSerializ
         <div className="info">
           <span className="post-date">{date}</span>
         </div>
-        <img className="cover" src={cover} />
+        <Image layout="responsive" width={1152} height={768} src={cover} alt="" />
         <MDXRemote {...source}></MDXRemote>
       </article>
     </>

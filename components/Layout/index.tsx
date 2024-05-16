@@ -108,6 +108,7 @@ const Layout: React.FC<Props> = ({ children }) => {
     }
 
     return removeMediaQueryEvent;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
