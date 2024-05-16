@@ -58,9 +58,6 @@ devDependencies:
   '@types/react':
     specifier: ^17.0.46
     version: 17.0.46
-  babel-plugin-import-glob-array:
-    specifier: ^0.2.0
-    version: 0.2.0
   clean-webpack-plugin:
     specifier: ^3.0.0
     version: 3.0.0(webpack@5.91.0)
@@ -2445,13 +2442,6 @@ packages:
     resolution: {integrity: sha512-jsyHu61e6N4Vbz/v18DHwWYKK0bSWLqn47eeDSKPB7m8tqMHF9YJ+mhIk2lVteyZrY8tnSj/jHOv4YiTCuCJgg==}
     dependencies:
       dequal: 2.0.3
-    dev: true
-
-  /babel-plugin-import-glob-array@0.2.0:
-    resolution: {integrity: sha512-z7JhHOQ2hq4MBaNL9aAtDsilS12V01QNbhlZzPBIAkTymXmJhvkZVQIDvb6CJrfFN7wy9ScOTpwhv9RsvGSEWg==}
-    dependencies:
-      glob: 7.2.3
-      is-glob: 4.0.3
     dev: true
 
   /babel-plugin-polyfill-corejs2@0.4.11(@babel/core@7.24.4):
