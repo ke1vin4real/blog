@@ -15,7 +15,7 @@ module.exports = {
     const { dev } = options;
     config.module.rules.push({
       test: /\.svg$/,
-      issuer: /\.\w+(?<!(s?c|sa)ss)$/i,       // Next.js already handles url() in css/sass/scss files
+      issuer: /\.\w+(?<!(s?c|sa)ss)$/i,       // Next.js handles url() in css/sass/scss files
       use: [
         {
           loader: require.resolve('svg-inline-loader'),
