@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
-import Image from 'next/image'
+import Image, { ImageProps } from 'next/image'
 import { serialize } from "next-mdx-remote/serialize";
 import { NextSeo, ArticleJsonLd } from 'next-seo';
 import { HOST } from '../../utils/constant';
@@ -59,6 +59,14 @@ function parseFileContent(fileContent: string) {
 
   return { frontMatter: frontMatter as FrontMatter, content };
 }
+
+function MDXImage(props: ImageProps) {
+  return <Image {...props} alt={props.alt} />
+}
+
+const components = {
+  Image: MDXImage
+};
 
 export default function MDX({ source, frontMatter }: { source: MDXRemoteSerializeResult, frontMatter: FrontMatter}) {
   const { title, date, description, cover, slug } = frontMatter;
@@ -122,8 +130,7 @@ export default function MDX({ source, frontMatter }: { source: MDXRemoteSerializ
         <div className="info">
           <span className="post-date">{date}</span>
         </div>
-        <Image layout="responsive" width={1152} height={768} src={cover} alt="" />
-        <MDXRemote {...source}></MDXRemote>
+        <MDXRemote {...source} components={components}></MDXRemote>
       </article>
     </>
   );
