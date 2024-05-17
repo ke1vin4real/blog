@@ -115,13 +115,11 @@ export default function BlogList({ posts }: Props) {
           posts.map((frontMatter: FrontMatter) => (
             <li key={frontMatter.title} className="post">
               <Link href={'/blog/' + frontMatter.slug}>
-                <a>
-                  <div className="title-line">
-                    <h3 className="title">{frontMatter.title}</h3>
-                    <span className="post-date">{frontMatter.date}</span>
-                  </div>
-                  <p className="post-desc">{frontMatter.description}</p>
-                </a>
+                <div className="title-line">
+                  <h3 className="title">{frontMatter.title}</h3>
+                  <span className="post-date">{frontMatter.date}</span>
+                </div>
+                <p className="post-desc">{frontMatter.description}</p>
               </Link>
             </li>
           ))
