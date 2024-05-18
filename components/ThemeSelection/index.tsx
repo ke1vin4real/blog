@@ -136,8 +136,4 @@ const ThemeSelection = ({onChange, defaultValue, options }: Props) => {
   );
 };
 
-ThemeSelection.defaultProps = {
-  defaultValue: 0
-};
-
 export default ThemeSelection;
