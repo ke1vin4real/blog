@@ -60,15 +60,8 @@ export default class MyDocument extends Document {
           <meta name='format-detection' content='telephone=no' />
           <meta name='mobile-web-app-capable' content='yes' />
           <meta name='theme-color' content='#000000' />
-          <link rel="preconnect" href="https://fonts.gstatic.com" />
-          <link crossOrigin="anonymous"  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
           <link href="/favicon/favicon.ico" rel="shortcut icon" />
           <link href="/manifest.json" rel="manifest" />
-          <link
-            rel="dns-prefetch"
-            href="https://fonts.googleapis.com/"
-            crossOrigin=""
-          />
           <link
             href="/favicon/apple-touch-icon.png"
             rel="apple-touch-icon"
