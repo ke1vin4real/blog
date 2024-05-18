@@ -142,7 +142,7 @@ const Layout: React.FC<Props> = ({ children }) => {
             display: inline-block;
           }
             
-          li + li {
+          .links li + li {
             margin-left: 20px;
           }
             
@@ -386,7 +386,7 @@ const Layout: React.FC<Props> = ({ children }) => {
           {
             isClientThemeLoaded && <ThemeSelection options={themeOptions} defaultValue={localTheme ? localTheme : theme} onChange={onThemeChange} />
           }
-          <ul>
+          <ul className="links">
             <li>
               <Link href="/">Home</Link>
             </li>
