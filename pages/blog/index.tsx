@@ -63,11 +63,10 @@ export default function BlogList({ posts }: Props) {
           font-size: 1.25rem;
           margin-bottom: 0.5rem;
           color: var(--main-text-color);
-          
-          &-line {
-            display: flex;
-            align-items: flex-start;
-          }
+        }
+        .title-line {
+          display: flex;
+          align-items: flex-start;
         }
         .section-title {
           margin-bottom: 1rem;
@@ -75,18 +74,19 @@ export default function BlogList({ posts }: Props) {
         }
         .post {
           margin-bottom: 1rem;
-          &-date {
-            margin-left: auto;
-            margin-bottom: 0.5rem;
-            color: #718096;
-            min-width: 6.25rem;
-            text-align: right;
-          }
-          
-          &-desc {
-            color: #718096;
-            font-size: 0.9375rem;
-          }
+        }
+
+        .post-date {
+          margin-left: auto;
+          margin-bottom: 0.5rem;
+          color: #718096;
+          min-width: 6.25rem;
+          text-align: right;
+        }
+
+        .post-desc {
+          color: #718096;
+          font-size: 0.9375rem;
         }
         
         @media (max-width: 767px) {
