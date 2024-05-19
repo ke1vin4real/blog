@@ -32,53 +32,10 @@ export default class MyDocument extends Document {
               `,
             }}
           />
-          <script
-            async
-            type="text/javascript"
-            dangerouslySetInnerHTML={{
-              __html: `
-                 if ('serviceWorker' in navigator) {
-                   window.addEventListener('load', () => {
-                     navigator.serviceWorker.register('/sw.js').then(registration => {
-                       console.log('SW registered: ', registration);
-                     }).catch(registrationError => {
-                       console.log('SW registration failed: ', registrationError);
-                     });
-                     
-                     navigator.serviceWorker.oncontrollerchange = function() {
-                       console.log('This page is now controlled by:', navigator.serviceWorker.controller);
-                     };
-                   });
-                 }
-              `,
-            }}
-          />
-          <meta name='application-name' content="Ke1vin's Blog" />
-          <meta name='apple-mobile-web-app-capable' content='yes' />
-          <meta name='apple-mobile-web-app-status-bar-style' content='default' />
-          <meta name='apple-mobile-web-app-title' content="Ke1vin's Blog" />
-          <meta name='format-detection' content='telephone=no' />
-          <meta name='mobile-web-app-capable' content='yes' />
           <meta name='theme-color' content='#000000' />
           <link href="/favicon/favicon.ico" rel="shortcut icon" />
-          <link href="/manifest.json" rel="manifest" />
-          <link
-            href="/favicon/apple-touch-icon.png"
-            rel="apple-touch-icon"
-            sizes="180x180"
-          />
-          <link
-            href="/favicon/favicon-32x32.png"
-            rel="icon"
-            sizes="32x32"
-            type="image/png"
-          />
-          <link
-            href="/favicon/favicon-16x16.png"
-            rel="icon"
-            sizes="16x16"
-            type="image/png"
-          />
+          <link href="/favicon/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png" />
+          <link href="/favicon/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png" />
         </Head>
         <body>
           <Main />
