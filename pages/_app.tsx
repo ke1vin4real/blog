@@ -26,8 +26,8 @@ export default function MyApp({ Component, pageProps }: Props) {
         }
       `}</style>
       <Layout>
-        <Component {...pageProps} />
         <DefaultSeo {...SEO} />
+        <Component {...pageProps} />
       </Layout>
     </>
   );

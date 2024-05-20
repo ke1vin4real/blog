@@ -1,13 +1,12 @@
 # ke1vin.io
 
-My blog powered by [Next.js](https://nextjs.org/)
+Powered by [Next.js](https://nextjs.org/) and [Vercel](https://vercel.com/)
 
 ## Todos
 
 - [x] Light/Dark/System theme
-- [x] PWA
 - [ ] Search
-- [ ] Comment
+- [x] Comment
 - [ ] Google Analysis
-- [ ] live demo
+- [ ] Live demo
 

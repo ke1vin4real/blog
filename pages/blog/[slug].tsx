@@ -5,6 +5,10 @@ import Image, { ImageProps } from 'next/image'
 import { serialize } from "next-mdx-remote/serialize";
 import { NextSeo, ArticleJsonLd } from 'next-seo';
 import { HOST } from '../../utils/constant';
+import Giscus from '@giscus/react';
+import { useContext } from 'react';
+import { ThemeContext } from '../../components/Layout';
+
 
 interface FrontMatter {
   title: string,
@@ -14,7 +18,7 @@ interface FrontMatter {
   slug: string,
 }
 
-export const getStaticPaths = (async() => {
+export const getStaticPaths = (async () => {
   const posts = fs.readdirSync(path.join(process.cwd(), 'posts'));
   const paths = posts.map((filename) => ({ params: { slug: path.basename(filename, '.mdx') } }));
 
@@ -24,7 +28,7 @@ export const getStaticPaths = (async() => {
   }
 });
 
-export const getStaticProps = (async({ params: { slug } }: { params: { slug: string } }) => {
+export const getStaticProps = (async ({ params: { slug } }: { params: { slug: string } }) => {
   const rawContent = fs.readFileSync(path.join(process.cwd(), 'posts', slug + '.mdx'), 'utf-8');
   const { content, frontMatter } = parseFileContent(rawContent);
   const source = await serialize(content, {
@@ -68,10 +72,11 @@ const components = {
   Image: MDXImage
 };
 
-export default function MDX({ source, frontMatter }: { source: MDXRemoteSerializeResult, frontMatter: FrontMatter}) {
+export default function MDX({ source, frontMatter }: { source: MDXRemoteSerializeResult, frontMatter: FrontMatter }) {
   const { title, date, description, cover, slug } = frontMatter;
   const publishedDate = new Date(date).toISOString();
   const url = `https://${HOST}/blog/${slug}`;
+  const theme = useContext(ThemeContext);
 
   const featuredImage = {
     url: `https://${HOST}/${cover}`,
@@ -97,7 +102,7 @@ export default function MDX({ source, frontMatter }: { source: MDXRemoteSerializ
           .post-date {
            color: var(--post-date-text-color);
           }
-            `}
+      `}
       </style>
       <NextSeo
         title={`${title} - Kelvin`}
@@ -132,6 +137,20 @@ export default function MDX({ source, frontMatter }: { source: MDXRemoteSerializ
         </div>
         <MDXRemote {...source} components={components}></MDXRemote>
       </article>
+      <Giscus
+        repo="ke1vin4real/blog"
+        repoId="MDEwOlJlcG9zaXRvcnkyNTg1NTM5MzM="
+        category="Announcements"
+        categoryId="DIC_kwDOD2k4Tc4Cfev-"
+        mapping="og:title"
+        strict="1"
+        reactionsEnabled="1"
+        emitMetadata="0"
+        inputPosition="top"
+        theme={theme === 'LIGHT' ? 'light' : 'dark'}
+        lang="zh-CN"
+        loading="lazy"
+      />
     </>
   );
 }

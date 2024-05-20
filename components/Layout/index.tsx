@@ -7,7 +7,7 @@ import { THEME_DARK, THEME_LIGHT, THEME_LIST, THEME_SYSTEM } from '../../utils/c
 import ThemeSelection from "../ThemeSelection";
 import { detectSystemTheme } from "../../utils/func";
 
-const ThemeContext = React.createContext(THEME_LIGHT);
+export const ThemeContext = React.createContext<typeof THEME_DARK | typeof THEME_LIGHT>(THEME_LIGHT);
 
 interface Props {
   children: React.ReactNode,
@@ -20,7 +20,10 @@ const Layout: React.FC<Props> = ({ children }) => {
   const [ themeOptions, setThemeOptions ] = useState<Array<any>>([...THEME_LIST]);
 
   function onThemeChange (nextTheme: string) {
+    if (nextTheme === theme) return;
+
     let nextColorMode = null;
+
     if (theme === THEME_SYSTEM && nextTheme !== THEME_SYSTEM) {
       nextColorMode = nextTheme;
       removeMediaQueryEvent();
@@ -34,7 +37,7 @@ const Layout: React.FC<Props> = ({ children }) => {
       nextColorMode = nextTheme;
     }
 
-    setTheme(nextTheme);
+    setTheme(nextColorMode);
 
     try {
       window.localStorage.setItem('ke1vin-blog-theme', nextTheme);
