@@ -3,8 +3,6 @@ declare module "*.svg" {
   export default content;
 }
 
-type LocalTheme = string;
-
 interface Window {
-  __LOCAL_THEME__: LocalTheme;
+  __LOCAL_THEME__: string | undefined;
 }

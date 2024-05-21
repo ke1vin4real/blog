@@ -1,17 +1,20 @@
 import React, { useState, useRef, SyntheticEvent, useEffect } from 'react';
+import { THEME, THEME_SYSTEM } from '../../utils/theme';
+
+interface Option {
+  key: THEME | typeof THEME_SYSTEM,
+  icon: string,
+}
 
 interface Props {
   defaultValue?: string,
-  onChange: (item: string) => void,
-  options: Array<{
-    key: string,
-    icon: string,
-  }>,
+  onChange: (item: THEME | typeof THEME_SYSTEM) => void,
+  options: Array<Option>,
 }
 
-const ThemeSelection = ({onChange, defaultValue, options }: Props) => {
-  const [ current, setCurrent ] = useState(options.findIndex((item) => item.key === defaultValue));
-  const [ showOptions, setShowOptions ] = useState(false);
+const ThemeSelection = ({ onChange, defaultValue, options }: Props) => {
+  const [ current, setCurrent ] = useState<number>(options.findIndex((item) => item.key === defaultValue));
+  const [ showOptions, setShowOptions ] = useState<boolean>(false);
   const optionsRef = useRef<HTMLUListElement>(null);
   const selectionRef = useRef<HTMLDivElement>(null);
 

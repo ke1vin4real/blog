@@ -1,4 +1,4 @@
-import { THEME_DARK, THEME_LIGHT } from './constant';
+import { THEME } from './theme';
 
 /***
  * @description {Date} => yyyy-MM-dd HH:mm:ss
@@ -60,9 +60,9 @@ export const detectSystemTheme = function (fallback?: Function) {
   if (!isSystemDark && !isSystemLight) {
     fallback && fallback();
   } else if (isSystemDark) {
-    return THEME_DARK;
+    return THEME.DARK;
   } else if (isSystemLight) {
-    return THEME_LIGHT;
+    return THEME.LIGHT;
   }
 
   return null;

@@ -3,45 +3,42 @@ import Link from 'next/link';
 import IconGithub from '../../svgs/github.svg';
 import IconMail from '../../svgs/mail.svg';
 import * as config from '../../utils/constant';
-import { THEME_DARK, THEME_LIGHT, THEME_LIST, THEME_SYSTEM } from '../../utils/constant';
+import { THEME_LIST, THEME_SYSTEM } from '../../utils/theme';
 import ThemeSelection from "../ThemeSelection";
 import { detectSystemTheme } from "../../utils/func";
+import { THEME } from '../../utils/theme';
 
-export const ThemeContext = React.createContext<typeof THEME_DARK | typeof THEME_LIGHT>(THEME_LIGHT);
+export const ThemeContext = React.createContext<THEME>(THEME.LIGHT);
 
 interface Props {
   children: React.ReactNode,
 }
 
 const Layout: React.FC<Props> = ({ children }) => {
-  const [ theme, setTheme ] = React.useState<string>(THEME_LIGHT);
+  const [ theme, setTheme ] = React.useState<THEME>(THEME.LIGHT);
   const [ localTheme, setLocalTheme ] = React.useState<string | null>(null);
   const [ isClientThemeLoaded, setLoaded ] = useState<boolean>(false); // is theme in localStorage loaded
   const [ themeOptions, setThemeOptions ] = useState<Array<any>>([...THEME_LIST]);
 
-  function onThemeChange (nextTheme: string) {
-    if (nextTheme === theme) return;
+  function onThemeChange (nextTheme: THEME | typeof THEME_SYSTEM) {
+    let nextColorMode: THEME = THEME.LIGHT;
 
-    let nextColorMode = null;
-
-    if (theme === THEME_SYSTEM && nextTheme !== THEME_SYSTEM) {
+    if (nextTheme !== THEME_SYSTEM) {
       nextColorMode = nextTheme;
       removeMediaQueryEvent();
 
-    } else if (theme !== THEME_SYSTEM && nextTheme === THEME_SYSTEM) {
+    } else {
       const systemTheme = detectSystemTheme();
-      nextColorMode = systemTheme ? systemTheme : THEME_LIGHT;
+      nextColorMode = systemTheme !== null ? systemTheme : THEME.LIGHT;
       addMediaQueryEvent();
 
-    } else {
-      nextColorMode = nextTheme;
     }
 
     setTheme(nextColorMode);
 
     try {
       window.localStorage.setItem('ke1vin-blog-theme', nextTheme);
-      if (nextColorMode === THEME_DARK) {
+      if (nextColorMode === THEME.DARK) {
         document.documentElement.classList.add('dark-theme');
       } else {
         document.documentElement.classList.remove('dark-theme');
@@ -52,14 +49,14 @@ const Layout: React.FC<Props> = ({ children }) => {
   }
 
   function onSystemThemeChange (e: MediaQueryListEvent) {
-    const nextColorMode = e.matches ? THEME_DARK : THEME_LIGHT;
+    const nextColorMode = e.matches ? THEME.DARK : THEME.LIGHT;
 
-    if (nextColorMode === THEME_DARK) {
+    if (nextColorMode === THEME.DARK) {
       document.documentElement.classList.add('dark-theme');
     } else {
       document.documentElement.classList.remove('dark-theme');
     }
-    setTheme(e.matches ? THEME_DARK : THEME_LIGHT);
+    setTheme(e.matches ? THEME.DARK : THEME.LIGHT);
   }
 
   function addMediaQueryEvent () {
@@ -81,8 +78,9 @@ const Layout: React.FC<Props> = ({ children }) => {
   }
 
   useEffect(() => {
-    let currentSystemColorMode = null;
+    let currentSystemColorMode: THEME | null = null;
 
+    // read current system color mode(light or dark) and initialize options of ThemeSelection(reomve `SYSTEM` option when fail to read system color mode)
     try {
       currentSystemColorMode = detectSystemTheme(() => {
         setThemeOptions(THEME_LIST.filter(({ key }) => key !== 'system'));
@@ -91,18 +89,26 @@ const Layout: React.FC<Props> = ({ children }) => {
       console.error(e);
     }
 
+    // read theme in window.__LOCAL_THEME__, which got in _document.tsx
     try {
-      const localTheme = window.__LOCAL_THEME__;
-      if (localTheme) {
-        const isSystemColor = localTheme === THEME_SYSTEM;
-        setLocalTheme(localTheme);
-        setTheme(isSystemColor ? currentSystemColorMode !== null ? currentSystemColorMode : THEME_LIGHT : localTheme);
+      const preloadLocalTheme = window.__LOCAL_THEME__;
 
-        if (isSystemColor) {
+      if (preloadLocalTheme) {
+        const themeSystemSetted = preloadLocalTheme === THEME_SYSTEM;
+        const themeDarkSetted = preloadLocalTheme === THEME.DARK;
+        const themeLightSetted = preloadLocalTheme === THEME.LIGHT;
+        
+        if (themeDarkSetted || themeLightSetted) {
+          setTheme(preloadLocalTheme);
+        }
+
+        if (themeSystemSetted) {
+          setTheme(currentSystemColorMode !== null ? currentSystemColorMode : THEME.LIGHT);
+          
           addMediaQueryEvent();
         }
-      } else {
-        setTheme(THEME_LIGHT);
+
+        setLocalTheme(preloadLocalTheme);
       }
     } catch (e) {
       console.error(e);
