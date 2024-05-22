@@ -13,8 +13,8 @@ interface Props {
 }
 
 const ThemeSelection = ({ onChange, defaultValue, options }: Props) => {
-  const [ current, setCurrent ] = useState<number>(options.findIndex((item) => item.key === defaultValue));
-  const [ showOptions, setShowOptions ] = useState<boolean>(false);
+  const [current, setCurrent] = useState<number>(options.findIndex((item) => item.key === defaultValue));
+  const [showOptions, setShowOptions] = useState<boolean>(false);
   const optionsRef = useRef<HTMLUListElement>(null);
   const selectionRef = useRef<HTMLDivElement>(null);
 
@@ -33,7 +33,7 @@ const ThemeSelection = ({ onChange, defaultValue, options }: Props) => {
     }
   };
 
-  function handleBodyClick (e: MouseEvent) {
+  function handleBodyClick(e: MouseEvent) {
     if (selectionRef.current && !selectionRef.current.contains(e.target as HTMLElement)) {
       setShowOptions(false);
     }
@@ -76,22 +76,19 @@ const ThemeSelection = ({ onChange, defaultValue, options }: Props) => {
           z-index: 2;
           background-color: inherit;
           overflow: hidden;
-          
-          li {
-            height: 1.5rem;
-            display: flex;
-            align-items: center;
-            line-height: 0.875rem;
-            padding-left: 0.4rem;
-            
-            &:hover {
-              background-color: var(--selection-item-hover-background-color);
-            }
-            
-            &:active {
-              background-color: var(--selection-item-hover-background-color);
-            }
-          }
+        }
+        .options li {
+          height: 1.5rem;
+          display: flex;
+          align-items: center;
+          line-height: 0.875rem;
+          padding-left: 0.4rem;
+        }
+        .options li:hover {
+          background-color: var(--selection-item-hover-background-color);
+        }
+        .options li:active {
+          background-color: var(--selection-item-hover-background-color);
         }
         .current {
           display: flex;

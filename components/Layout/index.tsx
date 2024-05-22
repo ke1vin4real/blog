@@ -142,22 +142,22 @@ const Layout: React.FC<Props> = ({ children }) => {
           padding: 0 2rem;
           height: 100%;
           user-select: none;
-            
-          ul {
-            margin-left: auto;
-          }
-          
-          li {
-            display: inline-block;
-          }
-            
-          .links li + li {
-            margin-left: 20px;
-          }
-            
-          a {
-            color: var(--nav-color);
-          }
+        }
+
+        .nav-container ul {
+          margin-left: auto;
+        }
+
+        .nav-container li {
+          display: inline-block;
+        }
+
+        .nav-container .links li + li {
+          margin-left: 20px;
+        }
+
+        .nav-container a {
+          color: var(--nav-color);
         }
           
         main {
