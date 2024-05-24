@@ -17,19 +17,6 @@ ul {
   list-style: none;
 }
 
-#__next {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-@media (max-width: 767px) {
-  #__next {
-    /* mobile viewport bug fix */
-    min-height: -webkit-fill-available;
-  }
-}
-
 :root {
   --body-color: #fff;
   --nav-background-color: rgba(255,255,255,0.8);

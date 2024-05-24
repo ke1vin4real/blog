@@ -21,7 +21,12 @@
     "strict": true,
     "target": "esnext",
     "allowSyntheticDefaultImports": true,
-    "incremental": true
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "exclude": [
     "node_modules"
@@ -29,6 +34,7 @@
   "include": [
     "**/*.ts",
     "**/*.tsx",
-    "utils/custom.d.ts"
+    "utils/custom.d.ts",
+    ".next/types/**/*.ts"
   ]
 }

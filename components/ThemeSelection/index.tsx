@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState, useRef, SyntheticEvent, useEffect } from 'react';
 import { THEME, THEME_SYSTEM } from '../../utils/theme';
 

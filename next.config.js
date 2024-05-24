@@ -1,6 +1,7 @@
 module.exports = {
   pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
   swcMinify: true,
+  transpilePackages: ["next-mdx-remote"],
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
