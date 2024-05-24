@@ -64,7 +64,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="zh" style={{ fontFamily: `${inter.style.fontFamily},-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif` }}>
+    <html lang="zh">
       <head>
         <Script
           id="script-add-theme"
@@ -88,6 +88,16 @@ export default function RootLayout({
             `,
           }}
         />
+        <style
+          id="global-style"
+          dangerouslySetInnerHTML={{
+            __html: `
+              html {
+                font-family: ${inter.style.fontFamily},-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif
+              }
+            `
+          }}
+         />
       </head>
       <body>
         <StyledJsxRegistry>
