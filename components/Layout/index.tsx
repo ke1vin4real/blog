@@ -165,6 +165,7 @@ const Layout: React.FC<Props> = ({ children }) => {
         main {
           color: #000;
           padding: 0 2rem;
+          flex: 1;
         }  
         footer {
           margin-top: auto;
@@ -209,16 +210,9 @@ const Layout: React.FC<Props> = ({ children }) => {
           }
         }
         .app-container {
-          min-height: 100vh;
+          min-height: 100%;
           display: flex;
           flex-direction: column;
-        }
-        
-        @media (max-width: 767px) {
-          .app-container {
-            /* mobile viewport bug fix */
-            min-height: -webkit-fill-available;
-          }
         }
       `}
       </style>
