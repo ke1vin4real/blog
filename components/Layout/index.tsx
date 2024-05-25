@@ -154,6 +154,11 @@ const Layout: React.FC<Props> = ({ children }) => {
           display: inline-block;
         }
 
+        .nav-container .links {
+          color: var(--main-text-color);
+          font-weight: bold;
+        }
+
         .nav-container .links li + li {
           margin-left: 20px;
         }
@@ -407,9 +412,6 @@ const Layout: React.FC<Props> = ({ children }) => {
             <ul className="links">
               <li>
                 <Link href="/">Home</Link>
-              </li>
-              <li>
-                <Link href="/blog">Blog</Link>
               </li>
               <li>
                 <Link href="/about">About</Link>
