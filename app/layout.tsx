@@ -5,7 +5,6 @@ import { HOST } from "../utils/constant";
 import Layout from "../components/Layout";
 import StyledJsxRegistry from './registry';
 import '../utils/global.css';
-import '../utils/github-markdown.css';
 
 const inter = Inter({
   weight: ['400', '600'],

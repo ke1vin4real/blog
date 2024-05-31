@@ -5,6 +5,7 @@ import Image, { ImageProps } from 'next/image'
 import { Metadata } from "next";
 import { HOST } from "../../../utils/constant";
 import Comments from "../../../components/Comments";
+import '../../../utils/github-markdown.css';
 
 interface FrontMatter {
   title: string,

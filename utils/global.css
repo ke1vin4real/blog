@@ -50,8 +50,3 @@ ul {
   --selection-item-hover-background-color: #333;
   --selection-border-color: #999;
 }
-
-giscus-widget {
-  margin-top: 5rem;
-  display: block;
-}
