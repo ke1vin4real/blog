@@ -1,17 +1,9 @@
 import { Metadata, Viewport } from "next"
 import Script from "next/script";
-import { Inter } from "next/font/google";
 import { HOST } from "../utils/constant";
 import Layout from "../components/Layout";
 import StyledJsxRegistry from './registry';
 import '../utils/global.css';
-
-const inter = Inter({
-  weight: ['400', '600'],
-  subsets: ['latin'],
-  display: 'swap',
-
-});
 
 export const metadata: Metadata = {
   title: {
@@ -92,7 +84,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               html {
-                font-family: ${inter.style.fontFamily},-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif
+                font-family: -apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif
               }
             `
           }}
