@@ -6,6 +6,7 @@ import { Metadata } from "next";
 import { HOST } from "../../../utils/constant";
 import Comments from "../../../components/Comments";
 import '../../../utils/github-markdown.css';
+import MDXContent from '../../../components/MDXContent';
 
 interface FrontMatter {
   title: string,
@@ -100,13 +101,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <article className="markdown-body">
-        <h1>{frontMatter.title}</h1>
-        <div className="info" style={{ fontSize: '0.875rem', color: '#2D3748', display: 'flex', marginBottom: '2rem' }}>
-          <span className="post-date" style={{ color: 'var(--post-date-text-color)' }}>{date}</span>
-        </div>
-        {content}
-      </article>
+      <MDXContent title={frontMatter.title} date={date}>{content}</MDXContent>
       <Comments />
     </>
   )
