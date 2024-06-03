@@ -186,9 +186,6 @@ export default function MDXContent({ title, date, children }: Props) {
         .hljs-link {
           text-decoration: underline;
         }
-        body {
-          background-color: var(--body-color);
-        }
       `}
       </style>
       <style jsx>{`
