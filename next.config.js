@@ -1,4 +1,5 @@
 module.exports = {
+  output: 'export',
   pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
   swcMinify: true,
   transpilePackages: ["next-mdx-remote"],
