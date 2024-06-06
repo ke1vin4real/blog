@@ -3,7 +3,9 @@ import Script from "next/script";
 import { HOST } from "../utils/constant";
 import Layout from "../components/Layout";
 import StyledJsxRegistry from './registry';
-import '../utils/global.css';
+import fs from 'fs';
+import path from 'path';
+// import '../utils/global.css';
 
 export const metadata: Metadata = {
   title: {
@@ -57,10 +59,18 @@ export default function RootLayout({
   return (
     <html lang="zh">
       <head>
+        <style
+          id="global-style"
+          dangerouslySetInnerHTML={{
+            __html: fs.readFileSync(
+              path.join(process.cwd(), 'utils', 'global.css'),
+              'utf8',
+            ),
+          }}
+        />
         <Script
           id="script-add-theme"
           async
-          /* language=javascript */
           dangerouslySetInnerHTML={{
             __html: `
               try {
@@ -79,16 +89,6 @@ export default function RootLayout({
             `,
           }}
         />
-        <style
-          id="global-style"
-          dangerouslySetInnerHTML={{
-            __html: `
-              html {
-                font-family: -apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif
-              }
-            `
-          }}
-         />
       </head>
       <body>
         <StyledJsxRegistry>
