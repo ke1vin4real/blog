@@ -60,6 +60,30 @@ export async function generateMetadata({ params: { slug } }: { params: { slug: s
       type: 'article',
       publishedTime: new Date(date).toISOString(),
       url: `https://${HOST}/blog/${slug}`
+    },
+    metadataBase: new URL(`https://${HOST}`),
+    robots: {
+      index: true,
+      follow: true,
+      nocache: true,
+      googleBot: {
+        index: true,
+        follow: false,
+        noimageindex: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+    icons: {
+      icon: [
+        { url: '/favicon/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+        { url: '/favicon/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      ],
+      shortcut: { url: '/favicon/favicon.ico' }
+    },
+    verification: {
+      google: 'WkS-hKu7hobka_Ks2yKjVhnxu824ehCsXYQ-dyJ5zVo'
     }
   }
 }
