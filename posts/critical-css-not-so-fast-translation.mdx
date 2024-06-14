@@ -1,0 +1,272 @@
+---
+title: 【译】Critical CSS（关键CSS）并没有那么快
+date: 2023-07-28
+description: 好文翻译
+slug: critical-css-not-so-fast-translation
+---
+
+>作者：Harry Roberts\
+>译者：Ke1vin\
+>发布时间：2022年9月6日\
+>原文链接：[https://csswizardry.com/2022/09/critical-css-not-so-fast/](https://csswizardry.com/2022/09/critical-css-not-so-fast/)
+>
+>可以直接拉到结尾看结论，阅读请留意相关信息时效性
+
+我对关键CSS模式一直有着非常坚定的看法。理论上，在一个完美的世界里，所有条件都相同的情况下，它无疑是个“好主意”。然而实际上，在现实世界中，这种脆弱且代价高的技术在实现过程中经常不尽如人意，很少能带来许多开发者所期望的收益。
+
+让我们来看一下原因。
+
+<small>注意：关键CSS指“渲染初始窗口所需的样式”。</small>
+
+## 概述
+
+关键CSS并不像我们希望的那样简单，在开始之前需要考虑很多事情。假设以下情况适用的话，那它值得一试：
+
+- 你的项目中CSS是阻塞渲染最大的因素；
+- 你计划同时处理与其相关的一切；
+  - i.e&nbsp; 其他渲染阻塞的资源；
+- 它可以简单地实现或者从一开始就实现；
+  - 现有项目改造关键CSS既困难又容易出错；
+- 你维护它和它相关的一切；
+  - 很容易（再次）引入渲染阻塞的性能回退问题；
+- 你以合理的方式加载非关键CSS；
+  - 当下最好的做法可能莫过于维持CSS原样。
+
+## 关键CSS难以实现
+
+…特别是当我们讨论对现有项目改造时。可靠地提取相关的“关键”样式，首要基于一些脆弱的假设：我们认为哪个视口（或首屏）是关键的？我们如何处理屏幕外或未交互的元素（如下拉菜单或展开导航等）？我们如何将这个提取过程自动化？
+
+老实说这种情况，我的建议几乎总是：别费劲去改造关键CSS了 —— 只需对现有的CSS打包文件进行哈希和缓存[^1] [^2]，直到你重构项目的基础设施并且下次以不同的方式来优化你的CSS。
+
+在全新项目上实现关键CSS变得明显更容易，尤其是默认进行打包和CSS组件化的正确[^3]CSS-in-JS解决方案，但这仍然不能保证它会更快。
+
+让我们来看一下正确使用关键CSS对性能的影响。
+
+## 确保CSS是你最大的性能瓶颈
+
+只有当CSS是你的最大的渲染阻塞瓶颈时，关键CSS才有帮助，而且实际上，它常常不是。我的观点是，作为最重要的渲染阻塞资源，CSS常常受到过度关注，人们常常忘记任何同步工作在`<head>`中都是渲染阻塞的。害，`<head>`本身就是是完全同步的。为此你需要把优化工作看作优化`<head>`，而不只是优化CSS，CSS仅是其中的一部分。
+
+让我们来看一个demo，其中CSS并不是最大的渲染阻塞资源。实际上，我们有一个同步JS，它的加载时间比CSS还要长[^4]：
+
+```HTML
+<head>
+  <link rel="stylesheet"
+        href="/app.css"
+        onload="performance.mark('css loaded')" />
+  <script src="/app.js"></script>
+  <script>performance.mark('head finished')</script>
+</head>
+```
+
+当我们查看这个简单页面的瀑布流时，我们可以看到CSS和JS都是同步的、阻塞渲染的文件。CSS在JS之前到达，但我们直到JS执行完毕之后才能看到我们的首次渲染（即两条垂直绿线中的第一条）。CSS仍然有很大的优化空间，问题在于JS延迟了开始渲染的时间点。
+
+<p><small>注意：以下瀑布图中有两条垂直紫色条。每条代表一个 `performance.mark()`，标志着CSS下载完成或`<head>`结束。请注意它们的位置，以及它们是否重叠或覆盖了其他内容。</small></p>
+
+<figure>
+  <img src="https://res.cloudinary.com/csswizardry/image/fetch/f_auto,q_auto/https://csswizardry.com/wp-content/uploads/2022/09/waterfall-blocking.png" alt="waterfall-blocking" />
+  <figcaption><small>注意，CSS 文件被标记为阻塞（参见橙色叉号），因此具有最高优先级，并最先进行网络请求。</small></figcaption>
+</figure>
+
+如果我们要在这个页面上实现关键CSS，方法是：
+
+1. 将首屏的CSS内联，以及；
+2. 异步/延迟加载其余的CSS…
+
+```HTML
+<head>
+  <style id="critical-css">
+    h1 { font-size: calc(72 * var(--slow-css-loaded)); }
+  </style>
+  <link rel="stylesheet"
+        href="/non-critical.css"
+        media="print"
+        onload="performance.mark('css loaded'); this.media='all'" />
+
+  <script src="/app.js"></script>
+  <script>performance.mark('head finished')</script>
+</head>
+```
+<p><small>…我们将看不到任何改善！为什么会这样呢？因为我们的CSS并没有阻碍首次渲染，所以将其异步加载不会产生任何影响。首次渲染的情况保持不变，因为我们解决了错误的问题。</small></p>
+
+<figure>
+  <img src="https://res.cloudinary.com/csswizardry/image/fetch/f_auto,q_auto/https://csswizardry.com/wp-content/uploads/2022/09/waterfall-critical.png" alt="waterfall-critical" />
+  <figcaption><small>注意，现在CSS被作为非阻塞、最低优先级的请求获取，并在JavaScript之后进行网络请求。</small></figcaption>
+</figure>
+
+在两种情况下——分别是“阻塞式”和“关键CSS”——开始渲染时间完全相同。关键CSS并没有产生任何影响：
+
+<figure>
+  <img src="https://res.cloudinary.com/csswizardry/image/fetch/f_auto,q_auto/https://csswizardry.com/wp-content/uploads/2022/09/critical-filmstrip.png" alt="critical-filmstrip" />
+  <figcaption><small>以上两者表现出相同的视觉行为，因为 CSS 从来都不是问题 - 阻止渲染的是 JavaScript。</small></figcaption>
+</figure>
+
+在这种简化的测试案例中，关键CSS显然是浪费力气。我们只关注了两个文件，并且它们都被人为减慢了速度来证明我的观点。但同样的原则适用于真实的网站——也就是你的网站。在同时加载许多可能阻塞的资源时，你需要确认问题实际上是出在你的CSS上。
+
+在我们的案例中，**CSS 并不是瓶颈**。
+
+让我们看看如果 CSS是我们最大的障碍，会发生什么：
+
+<figure>
+  <img src="https://res.cloudinary.com/csswizardry/image/fetch/f_auto,q_auto/https://csswizardry.com/wp-content/uploads/2022/09/waterfall-blocking-02.png" alt="waterfall-blocking-02" />
+  <figcaption><small>再一次，两个文件都阻塞了渲染。但是请注意，两条紫线相互重叠——<code>css完成加载</code>和<code>head标签解析结束</code>是同步的。</small></figcaption>
+</figure>
+
+以上我们可以清楚地看到CSS是推迟了我们的首次渲染的资源类型。那么迁移到关键CSS——内联重要内容并异步加载其余内容——会有所不同吗？
+
+<figure>
+  <img src="https://res.cloudinary.com/csswizardry/image/fetch/f_auto,q_auto/https://csswizardry.com/wp-content/uploads/2022/09/waterfall-critical-02.png" alt="waterfall-critical-02" />
+  <figcaption><small>现在，<code>head标签解析结束</code>和<code>首次渲染</code>是相同的； <code>css完成加载</code>稍后。确实有效！</small></figcaption>
+</figure>
+
+现在我们可以看到关键CSS 确实有所帮助！但它真正起到的作用只是突出了下一个问题 — JS。这就是我们接下来需要解决的问题，以便继续朝着正确的方向迈进。
+
+<figure>
+  <img src="https://csswizardry.com/wp-content/uploads/2022/09/critical-filmstrip-02.png" />
+  <figcaption><small>注意变化<code>font-size</code>。<b>稍后将详细介绍<a href="#调试关键css">这一现象</a></b>。</small></figcaption>
+</figure>
+
+**在你优化CSS之前，确保CSS真的是阻碍你的因素**
+
+### 确保CSS依旧是你最大的性能瓶颈
+
+这一切似乎都很明显：如果CSS不是问题，就不要优化它。但更严重的问题是， 成功实现了关键CSS后可能会出现性能回退问题……
+
+如果确定CSS是你的最大瓶颈，你需要让你的项目维持这种状态。如果公司批准了为实现关键CSS的工程所需的时间和资金，那你不能在几周后就让他们把一个同步的第三方JS文件放到`<head>`中。这将完全使所有关键CSS工作都变得没有意义！这是一个非此即彼的问题。
+
+说实话，我再怎么强调也不为过。一个错误的决定就可能毁掉一切。
+
+## 你只是在处理网络获取
+
+下一个问题是将CSS的应用分成两个部分。
+
+当你使用`media-switching`模式[^5]异步获取 CSS 文件时，你所做的只是使网络时间异步——运行时仍然始终是一个同步操作，我们必须小心，不要无意中将此开销重新引入到Critical Path上。
+
+通过根据文件到达时间从异步媒体类型（例如media=print）切换到同步媒体类型（例如media=all），你引入了竞态条件：如果文件比预期到达得更早会怎样？它可能在开始渲染之前又被转换回阻塞样式表吗？
+
+### 这是一个竞态条件
+
+让我们来看一些非常夸张但非常简单的数学运算：
+
+如果解析`<head>`标签需要1秒，而异步获取非关键CSS文件需要0.5秒，那么CSS文件将在你本来准备好继续之前的0.5秒被重新转换为同步文件。
+
+我们异步获取了文件，但对性能没有任何影响，因为`<head>`中的任何同步操作都会阻塞渲染，这是定义上的问题。我们没有取得任何成果。异步获取完全无关紧要，因为它仍然发生在同步时间内。我们希望确保非关键样式在阻塞阶段期间或作为阻塞阶段的一部分不被应用。
+
+我们该怎么做？
+
+## 远离`media`
+
+一个选择是完全放弃`media-switcher`。让我们想想：如果我们的非关键样式不是首次渲染需要的，那么它没必要是阻塞渲染的——它根本就不应该在`<head>`中。
+
+答案出奇简单：与其和`<head>`的解析时间竞争，不如将非关键 CSS 完全移出`<head>`。如果我们将CSS移出`<head>`，它就不会再阻塞整个页面的渲染；它只会阻塞后续内容的渲染。
+
+我们为什么一开始要把非关键CSS放在`<head>`中呢？！
+
+### `media=print`问题
+
+简单说一下…
+
+我们遇到的另一个问题是，使用`media=print`请求的CSS文件被赋予最低优先级，这可能导致获取时间过慢。你可以在[之前的一篇文章](https://csswizardry.com/2020/05/the-fastest-google-fonts/#async-css)中了解更多相关内容。
+
+<figure>
+  <img src="https://res.cloudinary.com/csswizardry/image/fetch/f_auto,q_auto/https://csswizardry.com/wp-content/uploads/2020/05/waterfall-vitamix.png" alt="waterfall-vitamix" />
+  <figcaption><small>即使 CSS 是非关键的，等待超过 12 秒也是不可接受的。</small></figcaption>
+</figure>
+
+通过对非关键CSS采用以下方法，我们也设法规避了这个问题。
+
+### 更好的选择
+
+与其使用一种竞争且不确定的方法加载我们的非关键CSS，不如重新获得一些控制。让我们把非关键CSS放在`</body>`标签中：
+
+```HTML
+<head>
+  <style id="critical-css">
+    h1 { font-size: calc(72 * var(--slow-css-loaded)); }
+  </style>
+  <script src="/app.js"></script>
+  <script>performance.mark('head finished')</script>
+</head>
+<body>
+  ...
+  <link rel="stylesheet"
+        href="/non-critical.css"
+        onload="performance.mark('css loaded')" />
+</body>
+```
+
+现在发生什么了？
+
+<figure>
+  <img src="https://res.cloudinary.com/csswizardry/image/fetch/f_auto,q_auto/https://csswizardry.com/wp-content/uploads/2022/09/critical-filmstrip-03.png" alt="critical-filmstrip-03" />
+  <figcaption><small>请注意，首次渲染和视觉上完成之间的差距很大。<a href="#陷阱以及关注点">下一节</a>将对此进行详细介绍。</small></figcaption>
+</figure>
+
+首次渲染的速度是有史以来最快的！2.1秒。我们一定是战胜了竞态条件。泰裤辣！
+
+### 陷阱以及关注点
+
+使用该`</body>`方法时需要注意一些事项。
+
+首先，由于样式表定义得很晚，自然地会很请求得很晚。在大多数情况下，这正是我们想要的，但如果*过于晚了*，我们可以依靠[优先级提示](https://web.dev/articles/fetch-priority)来为我们提供帮助。
+
+其次，由于HTML是逐行解析的，样式表在解析器实际解析到它之前不会应用于页面。这意味着从应用`<head>`中的关键CSS到应用`</body>`后的非关键CSS期间，页面大部分将没有样式。这意味着如果用户滚动页面，他们很可能会看到一闪而过的无样式内容（FOUC），并且Layout Shifts的可能性显著增加。如果有人直接链接到页面内的片段标识符，这种情况尤为如此。
+
+进一步来说，即使非关键CSS从HTTP缓存中非常快地获取，它也只能随着HTML解析的速度被应用。实际上，`</body>`处的CSS样式大约在DOMContentLoaded事件触发时被应用。这相当晚了。这意味着加快文件获取速度不太可能使其更早应用于文档。这可能导致大量无样式的空档时间，并且页面越大，这个问题就越严重。你可以在上面的截图中看到这一点：开始渲染时间是2.1秒，但非关键CSS在2.9秒时才应用。情况因人而异，但我能给出的最佳建议是确保你的非关键样式不会改变首屏的任何内容。
+
+最后，你实际上要渲染页面两次：第一次使用关键CSS，第二次使用关键CSS和非关键CSS（CSSOM 是累积的，而不是叠加的）。这意味着重新计算样式、布局和绘制的运行时成本将会增加。也许会大幅增加。
+
+确保这些权衡是值得的，这一点很重要。测试一切情况。
+
+## 调试关键CSS
+
+如果我们正在努力克服所有这些困难——这是一场战斗——我们如何知道关键CSS是否真的有效？
+
+说实话，我发现最简单的方法——至少在本地——是判断关键CSS是否有效运行，即**在关键CSS正常运行的情况下做一些在视觉上破坏页面的事情**（这听起来违反直觉，但却是最简单的实现方式）。
+
+我们要确保**异步CSS不会在初始渲染时应用**。它需要在开始渲染之后的任何时间应用，但要在用户向下滚动到看到无样式内容（FOUC）之前。为此，可以在你的非关键CSS文件中添加类似这样的内容：
+
+```css
+* {
+  color: red !important;
+}
+```
+<p><small>最好的技术总是简单易行的，而且几乎总是使用<code>!important</code>。</small></p>
+
+如果第一次绘制全是红色，我们就知道CSS应用得太早了。如果第一次绘制不是红色，后来又变红，我们就知道CSS是在第一次绘制之后的某个时间应用的，这正是我们想要看到的。
+
+## 那我要说什么？
+
+这篇文章中有很多值得思考的地方，总结一下：
+
+- 一般来说，**不需要费心**改造关键CSS。
+  - 如果你想实现它，请确保这是**正确的关注点**。
+  - 如果你设法实现了它，那你真的需要**维护它**。
+- 对新项目的CSS方案**做出明智的选择**。
+  - 一个**好的CSS-in-JS**解决方案应该可以处理大部分问题。
+- 不要将非关键CSS**重新转变为同步资源**。
+  - media=print这个hack技巧**存在很大缺陷**。
+  - 将 非关键CSS 完全移出`<head>`。
+  - 将 非关键CSS 放置在`</body>`。
+- 请务必确保**你的非关键CSS不会（重新）设置首屏的任何样式**。
+- 一般来说，**不需要费心**改造关键CSS。
+
+<hr/>
+
+[^1]: [Cache-Control for Civilians – Fingerprint](https://csswizardry.com/2019/03/cache-control-for-civilians/#fingerprint--styleae3f66css)
+[^2]: [Cache-Control for Civilians – immutable](https://csswizardry.com/2019/03/cache-control-for-civilians/#immutable)
+[^3]: 零运行时，自动去重，并且理想情况下样式放置在`<body>`内的`<style>`块中——而不是在style属性中。
+[^4]: 案例使用 [Slowfil.es](https://slowfil.es/) 来强制减慢JS执行速度.
+[^5]: `media=print onload="this.media='all'"`
+
+
+
+
+
+
+
+
+
+
+
+
+

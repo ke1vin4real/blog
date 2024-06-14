@@ -7,6 +7,10 @@ import { HOST } from "../../../utils/constant";
 import Comments from "../../../components/Comments";
 import '../../../utils/github-markdown.css';
 import MDXContent from '../../../components/MDXContent';
+import remarkGfm from 'remark-gfm';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypeSlug from 'rehype-slug';
+import rehypeHighlight from 'rehype-highlight';
 
 interface FrontMatter {
   title: string,
@@ -73,8 +77,8 @@ export default async function Post({ params }: { params: { slug: string } }) {
   const { content, frontmatter: frontMatter } = await compileMDX<FrontMatter>({ source: rawContent, components, options: {
     parseFrontmatter: true,
     mdxOptions: {
-      remarkPlugins: [require('remark-autolink-headings'), require('remark-slug')],
-      rehypePlugins: [require('rehype-highlight')],
+      remarkPlugins: [remarkGfm],
+      rehypePlugins: [rehypeHighlight, rehypeSlug, rehypeAutolinkHeadings],
     },
   } });
 

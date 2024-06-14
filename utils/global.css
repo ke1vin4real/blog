@@ -4,11 +4,6 @@
   box-sizing: border-box;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
 html {
   scroll-behavior: smooth;
   font-family: -apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif;
@@ -22,8 +17,26 @@ html, body {
   height: 100%;
 }
 
+@media screen and (max-width: 768px) {
+  html {
+      font-size: 14px; /* 1rem = 14px */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  html {
+      font-size: 12px; /* 1rem = 12px */
+  }
+}
+
 ul {
   list-style: none;
+}
+
+
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
 :root {
