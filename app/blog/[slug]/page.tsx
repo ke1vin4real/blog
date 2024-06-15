@@ -5,7 +5,7 @@ import Image, { ImageProps } from 'next/image'
 import { Metadata } from "next";
 import { HOST } from "../../../utils/constant";
 import Comments from "../../../components/Comments";
-import '../../../utils/github-markdown.css';
+import './github-markdown.css';
 import MDXContent from '../../../components/MDXContent';
 import remarkGfm from 'remark-gfm';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';

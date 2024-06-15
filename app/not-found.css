@@ -1,0 +1,7 @@
+.not-found {
+  color: var(--main-text-color);
+}
+
+.not-found h1 {
+  margin-bottom: 1rem;
+}
