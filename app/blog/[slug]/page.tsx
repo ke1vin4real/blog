@@ -47,7 +47,8 @@ export async function generateStaticParams() {
   return paths;
 }
 
-export async function generateMetadata({ params: { slug } }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
   const rawContent = await fsPromises.readFile(path.join(process.cwd(), 'posts', slug + '.mdx'), 'utf-8');
   const { frontMatter: { title, description, date } } = parseFileFrontMatter(rawContent);
  
@@ -96,8 +97,9 @@ const components = {
   Image: MDXImage
 };
 
-export default async function Post({ params }: { params: { slug: string } }) {
-  const rawContent = await fsPromises.readFile(path.join(process.cwd(), 'posts', params.slug + '.mdx'), 'utf-8');
+export default async function Post({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const rawContent = await fsPromises.readFile(path.join(process.cwd(), 'posts', slug + '.mdx'), 'utf-8');
   const { content, frontmatter: frontMatter } = await compileMDX<FrontMatter>({ source: rawContent, components, options: {
     parseFrontmatter: true,
     mdxOptions: {
@@ -115,7 +117,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
     datePublished: publishedAt,
     dateModified: publishedAt,
     description: frontMatter.description,
-    url: `https://${HOST}/blog/${params.slug}`,
+    url: `https://${HOST}/blog/${slug}`,
     author: {
       '@type': 'Person',
       name: 'Ke1vin',

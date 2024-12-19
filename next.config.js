@@ -1,7 +1,10 @@
+/**
+ * @type {import('next').NextConfig}
+ */
+
 module.exports = {
   output: process.env.NODE_ENV === 'development' ? undefined: 'export',
   pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
-  swcMinify: true,
   transpilePackages: ["next-mdx-remote"],
   webpack(config) {
     config.module.rules.push({
