@@ -1,6 +1,8 @@
 import { MetadataRoute } from 'next';
 import { getAllPosts, type FrontMatter } from './db/blog';
 import { HOST } from '../utils/constant';
+
+export const dynamic = 'force-static';
  
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const postsData: FrontMatter[] = await getAllPosts();
