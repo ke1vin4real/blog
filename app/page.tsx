@@ -1,8 +1,8 @@
 import Posts from '../components/Posts';
-import { getAllPosts, type FrontMatter } from './db/blog';
+import { getAllPosts, type MetaData } from './db/blog';
 
 export default async function HomePage() {
-  const posts: FrontMatter[] = await getAllPosts();
+  const posts: MetaData[] = await getAllPosts();
 
   return (
     <Posts posts={posts} />
