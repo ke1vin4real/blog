@@ -1,7 +1,5 @@
 import createMDX from '@next/mdx';
 import remarkGfm from 'remark-gfm';
-import rehypeAutolinkHeadings from 'rehype-autolink-headings';
-import rehypeSlug from 'rehype-slug';
 import rehypeHighlight from 'rehype-highlight';
 import { createRequire } from 'module';
 
@@ -12,14 +10,15 @@ const require = createRequire(import.meta.url);
  */
 
 const withMDX = createMDX({
-  // Add markdown plugins here, as desired
-  remarkPlugins: [remarkGfm],
-  rehypePlugins: [rehypeHighlight, rehypeSlug, rehypeAutolinkHeadings],
+  options: {
+    remarkPlugins: [remarkGfm],
+    rehypePlugins: [rehypeHighlight],
+  },
 })
 
 const nextConfig = {
   output: process.env.NODE_ENV === 'development' ? undefined: 'export',
-  pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,

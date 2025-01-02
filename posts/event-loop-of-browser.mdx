@@ -6,7 +6,9 @@ export const metadata = {
   slug: "event-loop-of-browser"
 };
 
-<Image width={1152} height={678} src={`/images/posts/event-loop-of-browser/cover.jpg`} alt="event-loop-of-browser-cover" priority />
+import cover from '../public/images/posts/event-loop-of-browser/cover.jpg';
+
+<Image width={1152} height={678} src={cover} alt="event-loop-of-browser-cover" priority />
 
 #### 本文围绕浏览器的事件循环，而node.js有自己的另一套事件循环机制，不在本文讨论范围。网上的许多相关技术文章提到了`process.nextTick`和`setImmediate`两个node.js的API，这里不予讨论。
 
