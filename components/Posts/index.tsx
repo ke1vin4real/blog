@@ -28,7 +28,7 @@ export default function BlogPage({ posts }: { posts: FrontMatter[] }) {
           color: var(--main-text-color);
         }
         .post {
-          margin-bottom: 1rem;
+          margin-top: 1rem;
         }
 
         .post-date {
@@ -56,7 +56,6 @@ export default function BlogPage({ posts }: { posts: FrontMatter[] }) {
         }
       `}
     </style>
-    <div className="section-title"><h2>All Posts</h2></div>
     <ul>
       {
         posts.map((frontMatter: FrontMatter) => (
