@@ -17,15 +17,17 @@ html, body {
   height: 100%;
 }
 
-@media screen and (max-width: 768px) {
-  html {
-      font-size: 14px; /* 1rem = 14px */
-  }
+p {
+  line-height: 1.8;
 }
 
 @media screen and (max-width: 480px) {
   html {
-      font-size: 12px; /* 1rem = 12px */
+      font-size: 14px; /* 1rem = 14px */
+  }
+
+  p {
+    line-height: 1.625;
   }
 }
 
