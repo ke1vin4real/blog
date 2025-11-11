@@ -17,7 +17,7 @@ const withMDX = createMDX({
 })
 
 const nextConfig = {
-  output: process.env.NODE_ENV === 'development' ? undefined: 'export',
+  output: process.env.NODE_ENV === 'development' ? undefined : 'export',
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
   // webpack(config) {
   //   config.module.rules.push({

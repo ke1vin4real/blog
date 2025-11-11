@@ -33,7 +33,6 @@ yarn-error.log*
 
 /.vscode/
 
-/public/sw.js
-/public/sw.js.map
-/public/workbox-*.js
-/public/workbox-*.js.map
+/.cursor/
+
+.cursorrules
