@@ -10,15 +10,16 @@ export const THEME_SYSTEM = 'SYSTEM';
 
 export enum THEME {
   LIGHT = THEME_LIGHT,
-  DARK = THEME_DARK
+  DARK = THEME_DARK,
+  SYSTEM = THEME_SYSTEM,
 }
 
-export const THEME_LIST = [{
+export const THEME_LIST: Array<{ key: THEME; icon: React.ReactNode }> = [{
   key: THEME.LIGHT, icon: IconLight,
 }, {
   key: THEME.DARK, icon: IconDark,
 }, {
-  key: THEME_SYSTEM, icon: IconSystem,
+  key: THEME.SYSTEM, icon: IconSystem,
 }];
 
 

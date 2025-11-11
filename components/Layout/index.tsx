@@ -20,7 +20,7 @@ const Layout: React.FC<Props> = ({ children }) => {
   const [theme, setTheme] = React.useState<THEME>(THEME.LIGHT);
   const [localTheme, setLocalTheme] = React.useState<string | null>(null);
   const [isClientThemeLoaded, setLoaded] = useState<boolean>(false); // is theme in localStorage loaded
-  const [themeOptions, setThemeOptions] = useState<Array<any>>([...THEME_LIST]);
+  const [themeOptions, setThemeOptions] = useState<Array<{ key: THEME; icon: React.ReactNode }>>([...THEME_LIST]);
 
   function onThemeChange(nextTheme: THEME | typeof THEME_SYSTEM) {
     let nextColorMode: THEME = THEME.LIGHT;

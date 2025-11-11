@@ -53,12 +53,12 @@ export const getCookie = function(name: string, allCookies: string) {
   return '';
 };
 
-export const detectSystemTheme = function (fallback?: Function) {
+export const detectSystemTheme = function (fallback?: () => void) {
   const isSystemDark = window?.matchMedia('(prefers-color-scheme: dark)')?.matches;
   const isSystemLight = window?.matchMedia('(prefers-color-scheme: light)')?.matches;
 
   if (!isSystemDark && !isSystemLight) {
-    fallback && fallback();
+    if (fallback) fallback();
   } else if (isSystemDark) {
     return THEME.DARK;
   } else if (isSystemLight) {
