@@ -85,7 +85,7 @@ const Layout: React.FC<Props> = ({ children }) => {
     // read current system color mode(light or dark) and initialize options of ThemeSelection(reomve `SYSTEM` option when fail to read system color mode)
     try {
       currentSystemColorMode = detectSystemTheme(() => {
-        setThemeOptions(THEME_LIST.filter(({ key }) => key !== 'system'));
+        setThemeOptions(THEME_LIST.filter(({ key }) => key !== THEME_SYSTEM));
       });
     } catch (e) {
       console.error(e);
