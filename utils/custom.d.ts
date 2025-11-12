@@ -1,5 +1,5 @@
 declare module "*.svg" {
-  const content: React.ReactNode;
+  const content: string;
   export default content;
 }
 

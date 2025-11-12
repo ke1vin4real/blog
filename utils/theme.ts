@@ -14,7 +14,7 @@ export enum THEME {
   SYSTEM = THEME_SYSTEM,
 }
 
-export const THEME_LIST: Array<{ key: THEME; icon: React.ReactNode }> = [{
+export const THEME_LIST: Array<{ key: THEME; icon: string }> = [{
   key: THEME.LIGHT, icon: IconLight,
 }, {
   key: THEME.DARK, icon: IconDark,
