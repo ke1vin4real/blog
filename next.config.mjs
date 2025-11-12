@@ -40,6 +40,9 @@ const nextConfig = {
       },
     },
   },
+  experimental: {
+    turbopackFileSystemCacheForDev: true,
+  },
 };
 
 export default withMDX(nextConfig);
