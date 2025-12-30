@@ -17,7 +17,8 @@ const withMDX = createMDX({
 })
 
 const nextConfig = {
-  output: process.env.NODE_ENV === 'development' ? undefined : 'export',
+  cacheComponents: true,
+  // output: 'export' removed - not compatible with Cache Components
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
   // webpack(config) {
   //   config.module.rules.push({

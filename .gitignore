@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 
+# pnpm
+.pnpm-store/
+
 # testing
 /coverage
 
@@ -36,3 +39,6 @@ yarn-error.log*
 /.cursor/
 
 .cursorrules
+
+# TypeScript
+*.tsbuildinfo

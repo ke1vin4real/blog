@@ -11,6 +11,7 @@
     "start": "next start",
     "commit": "git-cz",
     "lint": "eslint .",
+    "ts-check": "tsc --noEmit",
     "prod": "next build && next start",
     "preinstall": "npx only-allow pnpm"
   },
