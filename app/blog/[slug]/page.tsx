@@ -1,6 +1,7 @@
-import { promises as fsPromises } from 'fs';
+import { promises as fsPromises, existsSync } from 'fs';
 import path from 'path';
 import { Metadata } from "next";
+import { notFound } from 'next/navigation'
 import { HOST } from "../../../utils/constant";
 import Comments from "../../../components/Comments";
 import './github-markdown.css';
@@ -15,8 +16,7 @@ interface MetaData {
   slug: string,
 }
 
-export const dynamicParams = false;
-
+// dynamicParams removed - not compatible with Cache Components
 
 export async function generateStaticParams() {
   const posts = await fsPromises.readdir(path.join(process.cwd(), 'posts'));
@@ -27,49 +27,72 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const { metadata: { title, description, date } } = await import(`../../../posts/${slug}.mdx`);
- 
-  return {
-    title,
-    description,
-    openGraph: {
+  const filePath = path.join(process.cwd(), 'posts', `${slug}.mdx`);
+  
+  // 检查文件是否存在
+  if (!existsSync(filePath)) {
+    return {
+      title: 'Not Found',
+      description: 'Page not found',
+    };
+  }
+  
+  try {
+    const { metadata: { title, description, date } } = await import(`../../../posts/${slug}.mdx`);
+    
+    return {
       title,
       description,
-      type: 'article',
-      publishedTime: new Date(date).toISOString(),
-      url: `https://${HOST}/blog/${slug}`
-    },
-    metadataBase: new URL(`https://${HOST}`),
-    robots: {
-      index: true,
-      follow: true,
-      nocache: true,
-      googleBot: {
-        index: true,
-        follow: false,
-        noimageindex: true,
-        'max-video-preview': -1,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
+      openGraph: {
+        title,
+        description,
+        type: 'article',
+        publishedTime: new Date(date).toISOString(),
+        url: `https://${HOST}/blog/${slug}`
       },
-    },
-    icons: {
-      icon: [
-        { url: '/favicon/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-        { url: '/favicon/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-      ],
-      shortcut: { url: '/favicon/favicon.ico' }
-    },
-    verification: {
-      google: 'WkS-hKu7hobka_Ks2yKjVhnxu824ehCsXYQ-dyJ5zVo'
-    }
+      metadataBase: new URL(`https://${HOST}`),
+      robots: {
+        index: true,
+        follow: true,
+        nocache: true,
+        googleBot: {
+          index: true,
+          follow: false,
+          noimageindex: true,
+          'max-video-preview': -1,
+          'max-image-preview': 'large',
+          'max-snippet': -1,
+        },
+      },
+      icons: {
+        icon: [
+          { url: '/favicon/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+          { url: '/favicon/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+        ],
+        shortcut: { url: '/favicon/favicon.ico' }
+      },
+      verification: {
+        google: 'WkS-hKu7hobka_Ks2yKjVhnxu824ehCsXYQ-dyJ5zVo'
+      }
+    };
+  } catch {
+    return {
+      title: 'Not Found',
+      description: 'Page not found',
+    };
   }
 };
 
 export default async function Post({ params }: { params: Promise<{ slug: string }> }) {
+  'use cache'
   const { slug } = await params;
-  const { default: Post, metadata } = await import(`../../../posts/${slug}.mdx`) as { default: MDXContent, metadata: MetaData };
+  const filePath = path.join(process.cwd(), 'posts', `${slug}.mdx`);
 
+  if (!existsSync(filePath)) {
+    notFound();
+  }
+
+  const { default: Post, metadata } = await import(`../../../posts/${slug}.mdx`) as { default: MDXContent, metadata: MetaData };
   const publishedAt = new Date(metadata.date).toISOString();
   const date = new Date(metadata.date).toISOString().split('T')[0];
   const jsonLd = {
