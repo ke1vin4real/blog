@@ -59,6 +59,7 @@ export default function RootLayout({
   return (
     <html lang="zh">
       <head>
+        <link rel="alternate" type="application/rss+xml" title="Ke1vin's Blog RSS" href="/rss.xml" />
         <style
           id="global-style"
           dangerouslySetInnerHTML={{
