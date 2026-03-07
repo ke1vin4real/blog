@@ -16,7 +16,7 @@ interface MetaData {
   slug: string,
 }
 
-// dynamicParams removed - not compatible with Cache Components
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const posts = await fsPromises.readdir(path.join(process.cwd(), 'posts'));
@@ -84,7 +84,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 };
 
 export default async function Post({ params }: { params: Promise<{ slug: string }> }) {
-  'use cache'
   const { slug } = await params;
   const filePath = path.join(process.cwd(), 'posts', `${slug}.mdx`);
 

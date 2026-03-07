@@ -1,6 +1,5 @@
 import { promises as fs } from 'fs';
 import path from 'path';
-import { cacheLife } from 'next/cache';
 
 export interface MetaData {
   title: string,
@@ -12,8 +11,6 @@ export interface MetaData {
 
 
 export async function getAllPosts(): Promise<MetaData[]> {
-  'use cache'
-  cacheLife('days')
   const postsPath = path.join(process.cwd(), 'posts');
   const filenames = await fs.readdir(postsPath);
   const mdxNames = filenames.filter((filename) => path.extname(filename) === '.mdx');
