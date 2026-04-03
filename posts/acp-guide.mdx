@@ -5,6 +5,11 @@ export const metadata = {
   slug: "acp-guide"
 };
 
+import beforeACP from '../public/images/posts/acp-guide/before-acp.png'
+import AionUi from  '../public/images/posts/acp-guide/AionUi.png'
+import Toad from  '../public/images/posts/acp-guide/Toad.png'
+
+
 ## 1. ACP 是什么
 
 [Agent Client Protocol (ACP)](https://agentclientprotocol.com/get-started/introduction) 是一项基于 [JSON-RPC 2.0](https://www.jsonrpc.org/specification) 的通信协议，旨在标准化<strong>客户端工具（Client）</strong>与<strong> AI Agent（Agent）</strong>之间的通信方式。协议的核心目标是解决当前 Agent 与各类工具间**集成成本高**和**互操作性差**的问题，使得用户可以自由组合不同的 Client 与 Agent。
@@ -19,7 +24,7 @@ export const metadata = {
 
 我觉得你应该看出了一些端倪，这不就是 LSP 诞生时的类似场景？
 
-![[Streamlining the AI Agent Ecosystem.png]]
+<Image src={beforeACP} alt="before-acp" />
 
 Zed 团队在2025年初重新设计了其 Agent 面板，并开始思考如何让用户能够自由选择除官方 Agent 以外的其他 AI 工具。与此同时，JetBrains 团队也在同年7月左右开始设计类似的协议层。在 JetBrains 准备发布自己的草案时，其负责人 Sergey 在 Hacker News 上读到了关于 Zed 正在进行类似尝试的文章。为了避免行业内出现多个互不兼容的标准，Sergey 主动联系了 Zed 的 Ben，双方一拍即合，ACP 协议就此诞生。
 
@@ -208,7 +213,7 @@ sequenceDiagram
 
 ### 6.1. AionUi
 
-![[2886671e3d1daa3b1275974e3947884c_MD5.jpg]]
+<Image src={AionUi} alt="AionUi" />
 
 [**AionUi**](https://github.com/iOfficeAI/AionUi) 是一个免费、开源且跨平台的桌面应用程序，旨在为各种 Agent 提供一个统一的图形用户界面。简单来说，如果你在使用像 `Claude Code`、`Gemini CLI` 或 `Qwen Code` 这样原本只能在终端里运行的 AI 工具，AionUi 就像是为它们穿上了一层“可视化外衣”，让你能像使用普通聊天软件一样操作这些强大的 AI 工具。
 
@@ -220,7 +225,7 @@ sequenceDiagram
 - **24/7 自动化：** 支持通过 Cron 表达式设置定时任务，让 Agent 自动执行周期性的工作流（如每日数据汇总、文件清理）。
 ### 6.2. Toad
 
-![[9d772f0a49fd4e84a00ad24fb48ed113_MD5.jpg]]
+<Image src={Toad} alt="Toad" />
 
 [Toad](https://github.com/batrachianai/toad)是一个专门为 **AI 编码智能体（AI Coding Agents）** 打造的统一终端用户界面。它由 Python 知名 TUI 库 `Textual` 的作者 Will McGugan 开发，旨在解决当前各类 AI 命令行工具（如 Claude Code, Gemini CLI 等）界面不统一、交互体验差的问题。
 

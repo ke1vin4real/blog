@@ -229,7 +229,7 @@ const Layout: React.FC<Props> = ({ children }) => {
             }
             <ul className="links">
               <li>
-                <Link href="/">Home</Link>
+                <Link href="/">Post</Link>
               </li>
               <li>
                 <Link href="/about">About</Link>
