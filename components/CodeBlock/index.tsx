@@ -38,7 +38,7 @@ export default function CodeBlock({ language, children, ...props }: Props) {
   async function handleCopy() {
     if (copied) return
     try {
-      const codeText = preRef.current ? preRef.current?.textContent : '';
+      const codeText = preRef.current?.textContent ?? '';
       await navigator.clipboard.writeText(codeText)
       setCopied(true)
       timerRef.current = setTimeout(() => setCopied(false), 2000)
