@@ -6,6 +6,7 @@ import StyledJsxRegistry from './registry';
 import fs from 'fs';
 import path from 'path';
 // import '../utils/global.css';
+import '@/node_modules/rehype-github-alerts/dist/styling/css/index.css';
 
 export const metadata: Metadata = {
   title: {

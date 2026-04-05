@@ -4,6 +4,8 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const remarkGfm = require.resolve('remark-gfm');
 const rehypeHighlight = require.resolve('rehype-highlight');
+const rehypeGithubAlerts = require.resolve('./plugins/rehype-github-alerts.mjs');
+
 
 /**
  * @type {import('next').NextConfig}
@@ -12,7 +14,7 @@ const rehypeHighlight = require.resolve('rehype-highlight');
 const withMDX = createMDX({
   options: {
     remarkPlugins: [remarkGfm],
-    rehypePlugins: [rehypeHighlight],
+    rehypePlugins: [rehypeHighlight, rehypeGithubAlerts],
   },
 })
 

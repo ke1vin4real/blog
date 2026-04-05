@@ -186,6 +186,18 @@ export default function MDXContent({ title, date, children }: Props) {
         .hljs-link {
           text-decoration: underline;
         }
+
+        .mermaid-diagram {
+          display: flex;
+          justify-content: center;
+          margin: 1.5rem 0;
+          overflow-x: auto;
+        }
+
+        .mermaid-diagram svg {
+          max-width: 100%;
+          height: auto;
+        }
       `}
       </style>
       <style jsx>{`
